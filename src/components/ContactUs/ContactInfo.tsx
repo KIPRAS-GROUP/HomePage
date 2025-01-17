@@ -6,16 +6,11 @@ import React from "react";
 const socialLinksData = [
   {
     id: "1",
-    icon: "ri-facebook-line",
-    link: "https://www.facebook.com/",
-  },
-  {
-    id: "2",
     icon: "ri-instagram-line",
     link: "https://www.instagram.com/",
   },
   {
-    id: "3",
+    id: "2",
     icon: "ri-twitter-line",
     link: "https://www.twitter.com/",
   },
@@ -26,18 +21,17 @@ const ContactInfo: React.FC = () => {
     <>
       <ul className="contact-info-list">
         <li>
-          <span>ADDRESS</span>
+          <span>ADRES</span>
           123 Maple Street Toronto, Ontario M1A 1A1 Canada
         </li>
 
         <li>
-          <span>CONTACT</span>
-          <a href="mailto:helltraz@gmail.com">helltraz@gmail.com</a>
-          <a href="tel:15551234567">+1 555-123-4567</a>
+          <span>BİLGİ VE İLETİŞİM</span>
+          <a href="mailto:info@kipras.com.tr">info@kipras.com.tr</a>
         </li>
 
         <li>
-          <span>SOCIAL MEDIA</span>
+          <span>SOSYAL MEDYA</span>
 
           {socialLinksData && (
             <ul className="social">

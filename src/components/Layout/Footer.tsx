@@ -4,30 +4,20 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import whiteLogo from "../../../public/images/white-logo.svg";
+import whiteLogo from "../../../public/images/kiprasImage/kipras.jpeg";
 import NewsletterForm from "./NewsletterForm";
 
 // Social Links
 const socialLinksData = [
   {
-    id: "1",
-    name: "Facebook",
-    link: "https://www.facebook.com/",
-  },
-  {
     id: "2",
     name: "Instagram",
-    link: "https://www.instagram.com/",
+    link: "https://www.instagram.com/kiprasgroup/",
   },
   {
     id: "3",
     name: "Linkedin",
-    link: "https://www.linkedin.com/",
-  },
-  {
-    id: "4",
-    name: "Twitter",
-    link: "https://www.twitter.com/",
+    link: "https://www.linkedin.com/company/kipras/posts/?feedView=all",
   },
 ];
 
@@ -35,22 +25,22 @@ const socialLinksData = [
 const pageLinksData = [
   {
     id: "1",
-    name: "Projects",
+    name: "Projeler",
     link: "/portfolio",
   },
   {
     id: "2",
-    name: "News And Articles",
+    name: "Haberler",
     link: "/blog",
   },
   {
     id: "3",
-    name: "Request a Quote",
+    name: "Teklif alın",
     link: "/request-quote",
   },
   {
     id: "4",
-    name: "Services",
+    name: "Kurumsal",
     link: "/services",
   },
 ];
@@ -71,12 +61,21 @@ const Footer: React.FC = () => {
               <div className="single-footer-widget">
                 <div className="widget-logo">
                   <Link href="/">
-                    <Image src={whiteLogo} alt="image" width={113} height={54} />
+                    <Image
+                      style={{
+                        borderRadius: "10px",
+                        boxShadow: "5px 5px 15px 5px rgba(0,0,0,0.4)",
+                      }}
+                      src={whiteLogo}
+                      alt="image"
+                      width={113}
+                      height={54}
+                    />
                   </Link>
                 </div>
                 <p>
-                  We would love to be a part of your dream space or home
-                  project.
+                  Hayalinizdeki mekanın veya ev projenizin bir parçası olmayı
+                  çok isteriz.
                 </p>
               </div>
             </div>
@@ -89,7 +88,7 @@ const Footer: React.FC = () => {
               data-aos-once="true"
             >
               <div className="single-footer-widget ps-5">
-                <h3>FOLLOW US</h3>
+                <h3>Sosyal Medyamız</h3>
 
                 {socialLinksData && (
                   <ul className="social-link">
@@ -114,16 +113,14 @@ const Footer: React.FC = () => {
               data-aos-once="true"
             >
               <div className="single-footer-widget ps-5">
-                <h3>SITE MAP</h3>
+                <h3>Kısayollar</h3>
 
                 {pageLinksData && (
                   <ul className="quick-link">
                     {pageLinksData &&
                       pageLinksData.map((value, i) => (
                         <li key={i}>
-                          <a href={value.link}>
-                            {value.name}
-                          </a>
+                          <a href={value.link}>{value.name}</a>
                         </li>
                       ))}
                   </ul>
@@ -149,11 +146,7 @@ const Footer: React.FC = () => {
         <div className="container">
           <div className="copyright-area-content">
             <p>
-              © <span>Traz</span> Template, All Rights Reserved By
-              <a href="https://envytheme.com/" target="_blank">
-                {" "}
-                EnvyTheme
-              </a>
+              © <span>Kipras</span> Group 2025
             </p>
           </div>
         </div>

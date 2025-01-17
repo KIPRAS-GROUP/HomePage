@@ -136,7 +136,7 @@ const TeamMember: React.FC = () => {
               <div className="col-lg-5 col-md-12">
                 <div className="team-left-content">
                   <div className="title">
-                    <span>OUR TEAM</span>
+                    <span>TAKIM</span>
                     <h2>Our Expert Team Behind The Scene</h2>
                   </div>
 

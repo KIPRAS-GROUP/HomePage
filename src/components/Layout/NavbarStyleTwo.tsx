@@ -12,7 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
-import logo from "/public/images/black-logo.svg";
+import logo from "/public/images/kiprasImage/kipras.jpeg";
 import blackLogo from "/public/images/black-logo.svg";
 
 const NavbarStyleTwo: React.FC = () => {
@@ -52,14 +52,24 @@ const NavbarStyleTwo: React.FC = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-with-different-color" id="navbar">
+      <nav
+        className="navbar navbar-expand-lg navbar-with-different-color"
+        id="navbar"
+        style={{ backgroundColor: "#1A1A1A" }}
+      >
         <div className="container-fluid position-relative">
           <Link className="navbar-brand" href="/">
-            <Image src={logo} alt="Logo" width={113} height={54} />
+            <Image
+              src={logo}
+              alt="Logo"
+              style={{ borderRadius: "15px" }}
+              width={100}
+              height={54}
+            />
           </Link>
 
           {/* Toggle navigation */}
-          <button 
+          <button
             className={classTwo}
             type="button"
             data-toggle="collapse"
@@ -75,71 +85,41 @@ const NavbarStyleTwo: React.FC = () => {
           </button>
 
           {/* Menu For Desktop Device */}
-          <div className={classOne} id="navbarSupportedContent">
-            <ul className="navbar-nav ms-auto">
+          <div
+            style={{ marginTop: "10px" }}
+            className={classOne}
+            id="navbarSupportedContent"
+          >
+            <ul style={{ marginTop: "10px" }} className="navbar-nav ms-auto">
               <li className="nav-item">
                 <Link
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href="/"
+                  className={`nav-link text-white ${
+                    currentRoute === "/" ? "active" : ""
+                  }`}
                 >
-                  Home
+                  Anasayfa
                 </Link>
-
-                <ul className="dropdown-menu">
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/" ? "active" : ""
-                      }`}
-                      href="/"
-                    >
-                      Architecture Home
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/interior-home/" ? "active" : ""
-                      }`}
-                      href="/interior-home/"
-                    >
-                      Interior Home
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/architecture-studio/" ? "active" : ""
-                      }`}
-                      href="/architecture-studio/"
-                    >
-                      Architecture Studio
-                    </Link>
-                  </li>
-                </ul>
               </li>
 
               <li className="nav-item">
                 <Link
                   href="/about-us/"
-                  className={`nav-link ${
+                  className={`nav-link text-white ${
                     currentRoute === "/about-us/" ? "active" : ""
                   }`}
                 >
-                  About Us
+                  Hakkımızda
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link
-                  className="nav-link dropdown-toggle"
+                  className="nav-link text-white dropdown-toggle"
                   href="#"
                   onClick={(e) => e.preventDefault()}
                 >
-                  Portfolio
+                  Projeler
                 </Link>
 
                 <ul className="dropdown-menu">
@@ -182,11 +162,11 @@ const NavbarStyleTwo: React.FC = () => {
 
               <li className="nav-item">
                 <Link
-                  className="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle text-white"
                   href="#"
                   onClick={(e) => e.preventDefault()}
                 >
-                  Pages
+                  Kurumsal
                 </Link>
 
                 <ul className="dropdown-menu">
@@ -215,7 +195,9 @@ const NavbarStyleTwo: React.FC = () => {
                         <Link
                           href="/services/service-details/"
                           className={`nav-link ${
-                            currentRoute === "/services/service-details/" ? "active" : ""
+                            currentRoute === "/services/service-details/"
+                              ? "active"
+                              : ""
                           }`}
                         >
                           Services Details
@@ -350,7 +332,7 @@ const NavbarStyleTwo: React.FC = () => {
 
               <li className="nav-item dropdown">
                 <Link
-                  className="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle text-white"
                   href="#"
                   onClick={(e) => e.preventDefault()}
                 >
@@ -452,27 +434,26 @@ const NavbarStyleTwo: React.FC = () => {
               <li className="nav-item">
                 <Link
                   href="/contact-us/"
-                  className={`nav-link ${
+                  className={`nav-link text-white ${
                     currentRoute === "/contact-us/" ? "active" : ""
                   }`}
                 >
-                  Contact Us
+                  İletişim
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* others-options */}
-          <div className="others-option d-flex align-items-center">
+          <div className="others-option d-flex align-items-center mt-3 sm:-mt-2">
             <div className="option-item">
               <div className="search-btn" onClick={handleToggleSearchModal}>
                 <i className="ri-search-line"></i>
               </div>
             </div>
-
             <div className="option-item">
               <Link href="/request-quote" className="default-btn">
-                Request A Quote
+                Teklif Alın
               </Link>
             </div>
           </div>
@@ -490,8 +471,13 @@ const NavbarStyleTwo: React.FC = () => {
             <div className="modal-header d-flex align-items-center justify-content-between">
               <div>
                 <Image
-                  src={blackLogo}
-                  alt="Traz Logo"
+                  style={{
+                    borderRadius: "5px",
+                    width: "75px",
+                    boxShadow: "5px 5px 15px 5px rgba(0,0,0,0.32)",
+                  }}
+                  src={logo}
+                  alt="kipras Logo"
                   width={100}
                   height={41}
                 />
@@ -502,6 +488,7 @@ const NavbarStyleTwo: React.FC = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                style={{ color: "black" }}
                 onClick={handleToggleMobileMenu}
               >
                 <i className="ri-close-line"></i>

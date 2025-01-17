@@ -90,47 +90,13 @@ const Navbar: React.FC = () => {
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <Link
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
+                  href="/"
+                  className={`nav-link text-white ${
+                    currentRoute === "/" ? "active" : ""
+                  }`}
                 >
                   Anasayfa
                 </Link>
-
-                <ul className="dropdown-menu">
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/" ? "active" : ""
-                      }`}
-                      href="/"
-                    >
-                      Architecture Home
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/interior-home/" ? "active" : ""
-                      }`}
-                      href="/interior-home/"
-                    >
-                      Interior Home
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
-                    <Link
-                      className={`nav-link ${
-                        currentRoute === "/architecture-studio/" ? "active" : ""
-                      }`}
-                      href="/architecture-studio/"
-                    >
-                      Architecture Studio
-                    </Link>
-                  </li>
-                </ul>
               </li>
 
               <li className="nav-item">
@@ -485,7 +451,7 @@ const Navbar: React.FC = () => {
 
             <div className="option-item">
               <Link href="/request-quote" className="default-btn">
-                Teklif isteyin
+                Teklif Alın
               </Link>
             </div>
           </div>
@@ -527,50 +493,12 @@ const Navbar: React.FC = () => {
 
             <div className="modal-body">
               <Accordion allowZeroExpanded>
-                <AccordionItem uuid="a">
-                  <AccordionItemHeading>
-                    <AccordionItemButton>Home</AccordionItemButton>
-                  </AccordionItemHeading>
-
-                  <AccordionItemPanel>
-                    <ul className="menu-list">
-                      <li>
-                        <Link
-                          className={`nav-link ${
-                            currentRoute === "/" ? "active" : ""
-                          }`}
-                          href="/"
-                        >
-                          Architecture Home
-                        </Link>
-                      </li>
-
-                      <li>
-                        <Link
-                          className={`nav-link ${
-                            currentRoute === "/interior-home/" ? "active" : ""
-                          }`}
-                          href="/interior-home/"
-                        >
-                          Interior Home
-                        </Link>
-                      </li>
-
-                      <li>
-                        <Link
-                          className={`nav-link ${
-                            currentRoute === "/architecture-studio/"
-                              ? "active"
-                              : ""
-                          }`}
-                          href="/architecture-studio/"
-                        >
-                          Architecture Studio
-                        </Link>
-                      </li>
-                    </ul>
-                  </AccordionItemPanel>
-                </AccordionItem>
+                <Link
+                  href="/"
+                  className={`nav-link ${currentRoute === "/" ? "active" : ""}`}
+                >
+                  Anasayfa
+                </Link>
 
                 <Link
                   href="/about-us/"
@@ -578,12 +506,12 @@ const Navbar: React.FC = () => {
                     currentRoute === "/about-us/" ? "active" : ""
                   }`}
                 >
-                  About Us
+                  Hakkımızda
                 </Link>
 
                 <AccordionItem uuid="b">
                   <AccordionItemHeading>
-                    <AccordionItemButton>Portfolyo</AccordionItemButton>
+                    <AccordionItemButton>Projeler</AccordionItemButton>
                   </AccordionItemHeading>
 
                   <AccordionItemPanel>
@@ -628,7 +556,7 @@ const Navbar: React.FC = () => {
 
                 <AccordionItem uuid="c">
                   <AccordionItemHeading>
-                    <AccordionItemButton>Pages</AccordionItemButton>
+                    <AccordionItemButton>Misyon</AccordionItemButton>
                   </AccordionItemHeading>
 
                   <AccordionItemPanel>
@@ -869,7 +797,7 @@ const Navbar: React.FC = () => {
                     currentRoute === "/contact-us/" ? "active" : ""
                   }`}
                 >
-                  Contact Us
+                  İletişim
                 </Link>
               </Accordion>
             </div>
