@@ -1,7 +1,6 @@
 import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
 import PageTitle from "@/components/Common/PageTitle";
 import AboutUsContent from "@/components/AboutUs/AboutUsContent";
-import LatestRecognition from "@/components/ArchitectureStudio/LatestRecognition";
 import QuoteText from "@/components/AboutUs/QuoteText";
 import ClientsFeedbackSlider from "@/components/Common/ClientsFeedbackSlider";
 import TextSlide from "@/components/Common/TextSlide";
@@ -22,8 +21,6 @@ export default function Page() {
       />
 
       <AboutUsContent />
-
-      <LatestRecognition />
 
       <QuoteText />
 

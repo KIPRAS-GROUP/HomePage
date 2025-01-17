@@ -1,0 +1,25 @@
+.darkMode {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --box-bg: #2d2d2d;
+  --border-color: #404040;
+  
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.boxStyleArea {
+  background-color: var(--box-bg);
+  border: 1px solid var(--border-color);
+  padding: 3rem 0;
+  margin: 2rem 0;
+}
+
+.boxStyleInner {
+  h3 {
+    color: var(--text-color);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+}

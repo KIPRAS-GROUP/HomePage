@@ -13,10 +13,10 @@ const clientsFeedbackData = [
   {
     id: "1",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations. With our team of highly skilled architects and designers, we specialize in crafting.",
+      "Beklentileri aşan vizyon sahibi tasarımlar yaratmaya adanmış önde gelen bir mimarlık firmasıyız. Son derece yetenekli mimar ve tasarımcılardan oluşan ekibimizle, zanaatkarlık konusunda uzmanlaşıyoruz.",
     image: "/images/client/user1.png",
-    name: "Jonathon Ronan",
-    designation: "CEO of HiBootstrap",
+    name: "Uğur Kaval",
+    designation: "CEO of UBapp",
   },
   {
     id: "2",

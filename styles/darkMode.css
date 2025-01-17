@@ -1,0 +1,55 @@
+.dark-mode {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.dark-mode .about-three-left-content {
+  background-color: #2d2d2d;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.dark-mode .text-light {
+  color: #e0e0e0 !important;
+}
+
+.dark-mode .dark-list-item {
+  background-color: #363636;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .dark-list-item:hover {
+  background-color: #404040;
+  transform: translateX(10px);
+}
+
+.dark-mode .about-image-wrap {
+  border: 1px solid #404040;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.dark-mode .our-mission-and-vision-accordion {
+  background-color: #2d2d2d;
+}
+
+.dark-mode .accordion__button {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+.dark-mode .accordion__panel {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.dark-mode .box-style-area {
+  background-color: #363636;
+}
+
+.dark-mode .box-style-inner h3 {
+  color: #ffffff;
+}

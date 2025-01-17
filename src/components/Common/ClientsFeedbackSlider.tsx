@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import darkStyles from '../AboutUs/aboutUsDark.module.css';
 
 import quoteIcon from "../../../public/images/client/quote.svg";
 
@@ -11,7 +12,7 @@ const clientsFeedbackData = [
   {
     id: "1",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
+      "ıhı mı?",
     image: "/images/client/user1.png",
     name: "Jonathon Ronan",
     designation: "CEO of HiBootstrap",
@@ -47,7 +48,7 @@ const ClientsFeedbackSlider: React.FC = () => {
     <>
       <div className="client-wrap-area pb-75">
         <div className="container">
-          <div className="section-title-wrap">
+          <div className={`section-title-wrap ${darkStyles.sectionTitle}`}>
             <span>REVIEWS</span>
             <h2>Our Clients Talk About Us & Believe In Our Work</h2>
           </div>

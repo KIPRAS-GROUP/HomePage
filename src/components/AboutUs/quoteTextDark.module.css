@@ -1,0 +1,12 @@
+.boxStyleArea {
+    background-color: #444;
+    color: #f8f9fa;
+}
+
+.boxStyleHeading {
+    color: #f8f9fa;
+}
+
+.wrapShapeImage {
+    filter: invert(0.8); /* İsteğe bağlı olarak şekil rengini ayarlayabilirsiniz */
+}

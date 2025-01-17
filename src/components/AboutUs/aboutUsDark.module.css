@@ -1,0 +1,170 @@
+.darkModeBody {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+/* Menü başlıkları için stiller */
+.darkModeBody :global(.navbar-nav .nav-link) {
+    color: #ffffff !important;
+}
+
+.darkModeBody :global(.navbar-nav .nav-link:hover) {
+    color: #4a90e2 !important;
+}
+
+/* Dropdown menü stilleri */
+.darkModeBody :global(.dropdown-menu) {
+    background-color: #ffffff !important;
+    border: none;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.darkModeBody :global(.dropdown-item),
+.darkModeBody :global(.navbar-nav .dropdown-menu a) {
+    color: #000000 !important;
+    padding: 10px 20px;
+    font-weight: 500;
+    background-color: #ffffff;
+}
+
+.darkModeBody :global(.dropdown-item:hover),
+.darkModeBody :global(.navbar-nav .dropdown-menu a:hover) {
+    background-color: #f8f9fa !important;
+    color: #4a90e2 !important;
+}
+
+/* Home menüsü için özel stiller */
+.darkModeBody :global(.navbar-nav .dropdown-menu.home-menu a) {
+    color: #000000 !important;
+    background-color: #ffffff;
+}
+
+.darkModeBody :global(.navbar-nav .dropdown-menu.home-menu a:hover) {
+    color: #4a90e2 !important;
+    background-color: #f8f9fa;
+}
+
+.aboutArea {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.aboutThreeTitle span {
+    color: #ffffff;
+}
+
+.aboutThreeTitle h2 {
+    color: #ffffff;
+}
+
+.aboutThreeTitle h2 b {
+    color: #4a90e2;
+}
+
+.aboutThreeLeftContent p {
+    color: #ffffff;
+}
+
+.aboutList li {
+    color: #ffffff;
+    background-color: #262626;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.aboutList li:hover {
+    background-color: #333333;
+}
+
+.arrowIcon {
+    filter: brightness(0) invert(1);
+}
+
+.videoBtn {
+    background-color: #4a90e2 !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+.videoBtn:hover {
+    background-color: #357abd !important;
+}
+
+.videoBtn i {
+    color: #ffffff !important;
+}
+
+.aboutThreeRightContent {
+    color: #ffffff;
+}
+
+.aboutWrapContent h2 {
+    color: #ffffff;
+}
+
+.aboutWrapContent p {
+    color: #ffffff;
+}
+
+.aboutWrapShapeImage {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.ourMissionAndVisionAccordion .accordion__item {
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+}
+
+.ourMissionAndVisionAccordion .accordion__item button {
+    color: #ffffff;
+    background-color: #1a1a1a;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 0;
+    width: 100%;
+    text-align: left;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.ourMissionAndVisionAccordion .accordion__item[aria-expanded="true"] button {
+    color: #ffffff;
+    background-color: #1a1a1a;
+}
+
+.ourMissionAndVisionAccordion .accordion__item p {
+    color: #ffffff;
+    background-color: #1a1a1a;
+    padding: 20px;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.accordionText {
+    color: #ffffff;
+    background-color: #1a1a1a;
+}
+
+.sectionTitle h2 {
+    color: #ffffff !important;
+}
+
+/* Müşteri yorumları kartları için stiller */
+.client-wrap-card {
+    background-color: #262626;
+}
+
+.client-wrap-card p,
+.client-wrap-card h3,
+.client-wrap-card span {
+    color: #ffffff !important;
+}
+
+/* Ortak stilleri geçersiz kılmak için gerekirse daha spesifik kurallar ekleyin */

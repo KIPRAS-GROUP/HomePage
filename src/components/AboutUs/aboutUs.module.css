@@ -1,0 +1,165 @@
+.aboutArea {
+    padding-top: 100px; /* pt-100 sınıfına karşılık gelir */
+  }
+  
+  .aboutThreeTitle {
+    text-align: center;
+    margin-bottom: 50px; /* Varsayılan olarak ayarlanabilir */
+  }
+  
+  .aboutThreeTitle span {
+    display: block;
+    font-size: 14px;
+    color: #7b664d; /* Örnek bir renk */
+    margin-bottom: 10px;
+  }
+  
+  .aboutThreeTitle h2 {
+    font-size: 30px;
+    color: #000; /* Örnek bir renk */
+  }
+  
+  .aboutThreeTitle h2 b {
+    font-weight: bold;
+  }
+  
+  .aboutImageThree {
+    margin-bottom: 30px; /* Varsayılan olarak ayarlanabilir */
+  }
+  
+  .aboutThreeInner {
+    /* İçerik düzeni için stiller */
+  }
+  
+  .aboutThreeLeftContent {
+    /* Sol içerik bölümü için stiller */
+  }
+  
+  .aboutThreeLeftContent p {
+    margin-bottom: 20px;
+    color: #555; /* Örnek bir renk */
+    line-height: 1.8;
+  }
+  
+  .list {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  .list li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    color: #555; /* Örnek bir renk */
+  }
+  
+  .list li img {
+    margin-right: 10px;
+  }
+  
+  .aboutImageWrap {
+    position: relative;
+    margin-top: 30px; /* Varsayılan olarak ayarlanabilir */
+  }
+  
+  .wrapVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .videoBtn {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #fff; /* Örnek bir renk */
+    color: #7b664d !important; /* Örnek bir renk */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none !important;
+  }
+  
+  .videoBtn:hover {
+    background-color: #7b664d; /* Örnek bir renk */
+    color: #fff !important;
+  }
+  
+  .videoBtn i {
+    font-size: 24px;
+  }
+  
+  .aboutThreeRightContent {
+    /* Sağ içerik bölümü için stiller */
+  }
+  
+  .aboutWrapContent {
+    margin-top: 30px; /* Varsayılan olarak ayarlanabilir */
+  }
+  
+  .aboutWrapContent h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000; /* Örnek bir renk */
+  }
+  
+  .aboutWrapContent p {
+    margin-bottom: 15px;
+    color: #555; /* Örnek bir renk */
+    line-height: 1.8;
+  }
+  
+  .aboutWrapShape {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+  }
+  
+  /* OurMissionAndVision Component Stilleri */
+  .ourMissionAndVisionAccordion {
+    /* Accordion genel stilleri */
+  }
+  
+  .accordionItemHeading button {
+    background-color: #f9f9f9; /* Örnek bir renk */
+    color: #333; /* Örnek bir renk */
+    padding: 15px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .accordionItemHeading button:focus {
+    outline: none;
+  }
+  
+  .accordionItemHeading button::after {
+    content: '\002B'; /* Artı işareti */
+    font-size: 20px;
+  }
+  
+  .accordionItemHeading[aria-expanded="true"] button::after {
+    content: '\2212'; /* Eksi işareti */
+  }
+  
+  .accordionItemPanel {
+    padding: 15px;
+    background-color: #fff; /* Örnek bir renk */
+    color: #555; /* Örnek bir renk */
+    border-top: 1px solid #eee; /* Örnek bir renk */
+  }
+  
+  .accordionText {
+    margin-bottom: 10px;
+  }
