@@ -8,32 +8,32 @@ const processData = [
     id: "1",
     number: "1",
     image: "/images/process/process1.jpg",
-    title: "Align With Goals",
-    text: "We are a leading architecture firm dedicated to creating designs.",
+    title: "Kipras'la Geleceğe",
+    text: "Sizler için en güvenli ve en kaliteli mimari hizmetler",
     aosDelay: "100",
   },
   {
     id: "2",
     number: "2",
     image: "/images/process/process2.jpg",
-    title: "Guide The Design",
-    text: "We are a leading architecture firm dedicated to creating designs.",
+    title: "Kipras'la Geleceğe",
+    text: "Sizler için en güvenli ve en kaliteli mimari hizmetler",
     aosDelay: "200",
   },
   {
     id: "3",
     number: "3",
     image: "/images/process/process3.jpg",
-    title: "Digitally Build",
-    text: "We are a leading architecture firm dedicated to creating designs.",
+    title: "Kipras'la Geleceğe",
+    text: "Sizler için en güvenli ve en kaliteli mimari hizmetler",
     aosDelay: "300",
   },
   {
     id: "4",
     number: "4",
     image: "/images/process/process4.jpg",
-    title: "Construct The Best",
-    text: "We are a leading architecture firm dedicated to creating designs.",
+    title: "Kipras'la Geleceğe",
+    text: "Sizler için en güvenli ve en kaliteli mimari hizmetler",
     aosDelay: "400",
   },
 ];
@@ -51,7 +51,7 @@ const Process: React.FC = () => {
             data-aos-once="true"
           >
             <h2>
-              <span>Process</span> That We Follow
+              <span>Makaleler &</span> Gündem
             </h2>
           </div>
 

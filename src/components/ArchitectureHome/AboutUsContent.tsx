@@ -45,8 +45,8 @@ const AboutUsContent: React.FC = () => {
               >
                 <div className="title">
                   <h2>
-                    Biz Kimiz: Leading <span>Architectural Agency</span> Who
-                    Create Unique Living Spaces
+                  Biz Kimiz: Lider <span>Mimarlık Ajansı</span>
+                  Benzersiz Yaşam Alanları Yaratın
                   </h2>
                 </div>
 
@@ -65,10 +65,8 @@ const AboutUsContent: React.FC = () => {
                   <div className="col-lg-7">
                     <div className="inner-content">
                       <p>
-                        We are a leading architecture firm dedicated to creating
-                        visionary designs that transcend expectations. With our
-                        team of highly skilled architects and designers, we
-                        specialize in crafting.
+                      Beklentileri aşan vizyoner tasarımlar yaratmaya kendini adamış lider bir mimarlık firmasıyız. Nitelikli mimar ve tasarımcılardan oluşan ekibimizle,
+                      işçiliği konusunda uzmanlaşın.
                       </p>
 
                       <ul className="list">
@@ -79,7 +77,7 @@ const AboutUsContent: React.FC = () => {
                             width={28}
                             height={10}
                           />
-                          Innovative Design Approach
+                          İnovatif Tasarım Yaklaşımı
                         </li>
                         <li>
                           <Image
@@ -88,7 +86,7 @@ const AboutUsContent: React.FC = () => {
                             width={28}
                             height={10}
                           />
-                          Highly Skilled Expertise and Specialization
+                           Yüksek Nitelikli Uzmanlık ve Uzmanlaşma
                         </li>
                         <li>
                           <Image
@@ -97,7 +95,7 @@ const AboutUsContent: React.FC = () => {
                             width={28}
                             height={10}
                           />
-                          A client-centric approach for an architectural company
+                           Bir mimarlık şirketi için müşteri merkezli yaklaşım
                         </li>
                         <li>
                           <Image
@@ -106,13 +104,13 @@ const AboutUsContent: React.FC = () => {
                             width={28}
                             height={10}
                           />
-                          Sustainable Design Practices
+                        Sürdürülebilir Tasarım Uygulamaları
                         </li>
                       </ul>
 
                       <div className="about-btn">
                         <Link href="/about-us" className="default-btn">
-                          Know More About Us
+                        Hakkımızda Daha Fazla Bilgi Edinin
                         </Link>
                       </div>
                     </div>

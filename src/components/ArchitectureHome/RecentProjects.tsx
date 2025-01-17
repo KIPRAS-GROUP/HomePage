@@ -17,8 +17,8 @@ const projectsData = [
   {
     id: "2",
     image: "/images/projects/projects2.jpg",
-    title: "Roof Top",
-    category: "Exterior",
+    title: "Örnek Proje 1",
+    category: "Şehir",
     link: "/portfolio/portfolio-details",
   },
   {
