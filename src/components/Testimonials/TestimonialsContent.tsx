@@ -7,30 +7,6 @@ import quoteIcon from "../../../public/images/client/quote.svg";
 
 const clientsFeedbackData = [
   {
-    id: "1",
-    feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
-    image: "/images/client/user1.png",
-    name: "Jonathon Ronan",
-    designation: "Client",
-  },
-  {
-    id: "2",
-    feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
-    image: "/images/client/user2.png",
-    name: "Angela Carter",
-    designation: "Client",
-  },
-  {
-    id: "3",
-    feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
-    image: "/images/client/user3.png",
-    name: "Skyler White",
-    designation: "Client",
-  },
-  {
     id: "4",
     feedbackText:
       "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",

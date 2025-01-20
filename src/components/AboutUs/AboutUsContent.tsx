@@ -74,7 +74,7 @@ const AboutUsContent: React.FC = () => {
             <div className="row justify-content-center">
               <div className="col-lg-6 col-md-12">
                 <div className={leftContentClassName}>
-                  <p className="mb-0" className={isDarkMode ? darkStyles.aboutText : ''}>
+                  <p className={`mb-0 ${isDarkMode ? darkStyles.aboutText : ''}`}>
                     KİPRAS GROUP olarak, mimari tasarım, inşaat ve proje yönetimindeki gelişmiş bakış açımızı 22 yıllık tecrübemizle hayata geçiriyoruz. Konut, ticari ve kamu projelerinde estetik, işlevsellik ve sürdürülebilirliği bir araya getirerek zamansız eserler oluşturuyoruz.
                   </p>
 

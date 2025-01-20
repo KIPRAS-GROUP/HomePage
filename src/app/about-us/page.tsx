@@ -2,7 +2,6 @@ import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
 import PageTitle from "@/components/Common/PageTitle";
 import AboutUsContent from "@/components/AboutUs/AboutUsContent";
 import QuoteText from "@/components/AboutUs/QuoteText";
-import ClientsFeedbackSlider from "@/components/Common/ClientsFeedbackSlider";
 import TextSlide from "@/components/Common/TextSlide";
 import TeamMemberStyle2 from "@/components/Common/TeamMemberStyle2";
 import Partner from "@/components/Common/Partner";
@@ -23,10 +22,6 @@ export default function Page() {
       <AboutUsContent />
 
       <QuoteText />
-
-      <div className="ptb-100">
-        <ClientsFeedbackSlider />
-      </div>
 
       <TextSlide />
 
