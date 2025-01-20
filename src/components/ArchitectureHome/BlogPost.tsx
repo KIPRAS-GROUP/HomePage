@@ -58,7 +58,7 @@ const BlogPost: React.FC = () => {
         <div className="container">
           <div className="section-title d-flex justify-content-between align-items-center">
             <h2>
-              Kipras'ın<span> Blog ve Makaleleri</span>
+              Kipras&apos;ın<span> Blog ve Makaleleri</span>
             </h2>
             <Link href="/blog">Blog Sayfasına Göz At</Link>
           </div>
