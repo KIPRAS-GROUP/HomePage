@@ -13,8 +13,8 @@ const blogPostData = [
     id: "1",
     image: "/images/blog/blog1.jpg",
     title:
-      "Transforming Spaces: How [Architecture Agency] Redefines the Built Environment",
-    category: "Interior",
+      "Mekânları Dönüştürmek: Yapılı Çevreyi Nasıl Yeniden Tanımlıyor?",
+    category: "Mimarlık",
     categoryLink: "/categories",
     date: "Jul 13, 2023",
     link: "/single-blog/",
@@ -23,8 +23,8 @@ const blogPostData = [
     id: "2",
     image: "/images/blog/blog2.jpg",
     title:
-      "From Concept to Construction: The Creative Journey of Traz In A Nutshell Architectural Marvels",
-    category: "Interior",
+      "Konseptten İnşaata: Kipras'ın Yaratıcı Yolculuğu Ceviz Kabuğuna Sığmayan Mimari Harikalar",
+    category: "Kipras Group",
     categoryLink: "/categories",
     date: "Jul 14, 2023",
     link: "/single-blog/",
@@ -33,8 +33,8 @@ const blogPostData = [
     id: "3",
     image: "/images/blog/blog3.jpg",
     title:
-      "Unveiling Architectural Marvels: [Architecture Agency]'s Impressive Portfolio",
-    category: "Interior",
+      "Mimari Harikaları Gün Yüzüne Çıkarmak: Kipras'ın Etkileyici Portföyü",
+    category: "Kipras",
     categoryLink: "/categories",
     date: "Jul 15, 2023",
     link: "/single-blog/",
@@ -43,8 +43,8 @@ const blogPostData = [
     id: "4",
     image: "/images/blog/blog2.jpg",
     title:
-      "From Concept to Construction: The Creative Journey of Traz In A Nutshell Architectural Marvels",
-    category: "Interior",
+      "Kipras'ın Yaşayan Mimarileri Hayalinizdeki İmzayı Taşıyor",
+    category: "Mimarlık",
     categoryLink: "/categories",
     date: "Jul 16, 2023",
     link: "/single-blog/",
@@ -58,9 +58,9 @@ const BlogPost: React.FC = () => {
         <div className="container">
           <div className="section-title d-flex justify-content-between align-items-center">
             <h2>
-              <span>Blog & Articles</span> Of Traz
+              Kipras'ın<span> Blog ve Makaleleri</span>
             </h2>
-            <Link href="/blog">VISIT BLOG PAGE</Link>
+            <Link href="/blog">Blog Sayfasına Göz At</Link>
           </div>
 
           {blogPostData && (
