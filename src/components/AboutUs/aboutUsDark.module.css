@@ -9,7 +9,7 @@
 }
 
 .darkModeBody :global(.navbar-nav .nav-link:hover) {
-    color: #4a90e2 !important;
+    color: #9F7A49 !important;
 }
 
 /* Dropdown menü stilleri */
@@ -30,7 +30,7 @@
 .darkModeBody :global(.dropdown-item:hover),
 .darkModeBody :global(.navbar-nav .dropdown-menu a:hover) {
     background-color: #f8f9fa !important;
-    color: #4a90e2 !important;
+    color: #9F7A49 !important;
 }
 
 /* Home menüsü için özel stiller */
@@ -40,7 +40,7 @@
 }
 
 .darkModeBody :global(.navbar-nav .dropdown-menu.home-menu a:hover) {
-    color: #4a90e2 !important;
+    color: #9F7A49!important;
     background-color: #f8f9fa;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .aboutThreeTitle h2 b {
-    color: #4a90e2;
+    color: #9F7A49;
 }
 
 .aboutThreeLeftContent p {
@@ -89,7 +89,7 @@
 }
 
 .videoBtn:hover {
-    background-color: #357abd !important;
+    background-color: #9F7A49 !important;
 }
 
 .videoBtn i {
