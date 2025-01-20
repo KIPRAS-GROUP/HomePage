@@ -7,7 +7,7 @@ const teamMemberData = [
   {
     id: "1",
     image: "/images/team/team1.jpg",
-    name: "David Off",
+    name: "Mesut Büyükyıldız",
     designation: "CEO & Co-founder",
 
     socialLink: [
@@ -31,8 +31,8 @@ const teamMemberData = [
   {
     id: "2",
     image: "/images/team/team2.jpg",
-    name: "Victor James",
-    designation: "Architect",
+    name: "Uğur Kaval",
+    designation: "Machine Learning Engineer",
 
     socialLink: [
       {
@@ -55,8 +55,8 @@ const teamMemberData = [
   {
     id: "3",
     image: "/images/team/team3.jpg",
-    name: "Walter White",
-    designation: "Interior Designer",
+    name: "Kaan",
+    designation: "Full Stack Developer",
 
     socialLink: [
       {
@@ -79,8 +79,8 @@ const teamMemberData = [
   {
     id: "4",
     image: "/images/team/team4.jpg",
-    name: "Jonathon",
-    designation: "Exterior Designer",
+    name: "Latife Çekinmez",
+    designation: "Frontend Developer & Designer",
 
     socialLink: [
       {
@@ -103,8 +103,8 @@ const teamMemberData = [
   {
     id: "5",
     image: "/images/team/team5.jpg",
-    name: "Angela",
-    designation: "Marketing Lead",
+    name: "Sanem Kader Güler",
+    designation: "Frontend Developer & Marketing Lead",
 
     socialLink: [
       {
@@ -136,8 +136,8 @@ const TeamMemberStyle2: React.FC = () => {
               <div className="col-lg-5 col-md-12">
                 <div className="team-left-content">
                   <div className="title">
-                    <span>OUR TEAM</span>
-                    <h2>Our Expert Team Behind The Scene</h2>
+                    <span>TAKIM</span>
+                    <h2>Sahnedeki Uzman Ekibimiz</h2>
                   </div>
 
                   {teamMemberData &&

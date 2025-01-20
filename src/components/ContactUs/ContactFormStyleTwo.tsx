@@ -64,8 +64,8 @@ const ContactFormStyleTwo: React.FC = () => {
             >
               <div className="contact-form-wrap">
                 <div className="title">
-                  <span>CONTACT</span>
-                  <h2>Contact Us Anytime, We Are Always There For You</h2>
+                  <span>İLETİŞİM</span>
+                  <h2>Bize İstediğiniz Zaman Ulaşın, Her Zaman Yanınızdayız</h2>
                 </div>
 
                 <div className="row align-items-center">
@@ -73,7 +73,7 @@ const ContactFormStyleTwo: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
                         <label>
-                          YOUR NAME<span>*</span>
+                          ADINIZ<span>*</span>
                         </label>
                         <input
                           type="text"
@@ -81,13 +81,13 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.name}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Jonathon Ronan"
+                          placeholder="Adınız Soyadınız"
                         />
                       </div>
 
                       <div className="form-group">
                         <label>
-                          EMAIL ADDRESS<span>*</span>
+                          E-POSTA ADRESİ<span>*</span>
                         </label>
                         <input
                           type="email"
@@ -95,13 +95,13 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.email}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="jonathonronana63@gmail.com"
+                          placeholder="ornek@email.com"
                         />
                       </div>
 
                       <div className="form-group">
                         <label>
-                          PHONE NO<span>*</span>
+                          TELEFON NUMARASI<span>*</span>
                         </label>
                         <input
                           type="tel"
@@ -109,25 +109,25 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.phone}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="+0 321 546 2345"
+                          placeholder="+90 555 123 4567"
                         />
                       </div>
 
                       <div className="form-group">
                         <label>
-                          YOUR MESSAGE HERE<span>*</span>
+                          MESAJINIZ<span>*</span>
                         </label>
                         <textarea
                           name="message"
                           value={formData.message}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Write your message here..."
+                          placeholder="Mesajınızı buraya yazın..."
                         ></textarea>
                       </div>
 
                       <button type="submit" className="default-btn">
-                        Send Message Now
+                        Mesaj Gönder
                       </button>
                     </form>
                   </div>
