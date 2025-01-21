@@ -18,15 +18,34 @@ const nextConfig = {
         headers: [
           {
             key: 'Permissions-Policy',
+            // Açıkça reddedilen özellikler
             value: [
+              // Temel güvenlik özellikleri
               'camera=()',
               'microphone=()',
               'geolocation=()',
-              'browsing-topics=()',
-              'interest-cohort=()',
-              'join-ad-interest-group=()',
-              'run-ad-auction=()'
+              // Privacy Sandbox özellikleri
+              'attribution-reporting=()',
+              'browsing-topics="()"',
+              'join-ad-interest-group="()"',
+              'run-ad-auction="()"',
+              'interest-cohort="()"',
+              // FLoC ve diğer deneysel özellikler
+              'conversion-measurement=()',
+              'focus-without-user-activation=()',
+              'hid=()',
+              'idle-detection=()',
+              'serial=()',
+              'sync-xhr=()',
+              'unload=()',
+              'usb=()',
+              'vertical-scroll=()'
             ].join(', ')
+          },
+          {
+            // CORS politikası
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin'
           }
         ],
       },
