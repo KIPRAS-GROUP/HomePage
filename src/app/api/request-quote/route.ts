@@ -8,7 +8,11 @@ interface FormData {
   email: string;
   position: string;
   message: string;
-  files: File[];
+  files: Array<{
+    name: string;
+    type: string;
+    data: string;
+  }>;
   systemInfo: {
     browser: string;
     browserVersion: string;
@@ -52,8 +56,8 @@ const sendEmail = async (formData: FormData) => {
       <p><strong>Telefon Numarası:</strong> ${formData.phone}</p>
       <p><strong>Pozisyon:</strong> ${formData.position}</p>
       <p><strong>Mesaj:</strong> ${formData.message}</p>
-      
-      <h3>Sistem Bilgileri</h3>
+      <br>
+      <h3>Sistem Log Bilgileri</h3>
       <p><strong>Tarayıcı:</strong> ${formData.systemInfo.browser} ${formData.systemInfo.browserVersion}</p>
       <p><strong>İşletim Sistemi:</strong> ${formData.systemInfo.os} ${formData.systemInfo.osVersion}</p>
       <p><strong>Cihaz:</strong> ${formData.systemInfo.device}</p>
@@ -67,10 +71,12 @@ const sendEmail = async (formData: FormData) => {
       <p><strong>Referrer:</strong> ${formData.systemInfo.referrer}</p>
       <p><strong>Mevcut URL:</strong> ${formData.systemInfo.currentUrl}</p>
     `,
-    attachments: formData.files ? formData.files.map((file: any) => ({
+    attachments: formData.files.map(file => ({
       filename: file.name,
-      content: file.data,
-    })) : [],
+      content: file.data.split('base64,')[1],
+      encoding: 'base64',
+      contentType: file.type
+    }))
   };
 
   await transporter.sendMail(mailOptions);

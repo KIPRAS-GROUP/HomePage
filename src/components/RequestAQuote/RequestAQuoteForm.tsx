@@ -22,7 +22,7 @@ const RequestAQuoteForm = () => {
     email: "",
     position: "",
     message: "",
-    files: [] as File[],
+    files: [] as { name: string; type: string; data: string }[],
     systemInfo: {
       browser: "",
       browserVersion: "",
@@ -161,14 +161,61 @@ const RequestAQuoteForm = () => {
       alert("Sadece PDF, Word ve görsel dosyaları yükleyebilirsiniz.");
     }
 
-    setFormData((prev) => ({
-      ...prev,
-      files: selectedFiles,
-    }));
+    // Dosyaları base64'e çevir ve isimlerini sakla
+    Promise.all(
+      selectedFiles.map((file) => {
+        return new Promise<{ name: string; type: string; data: string }>(
+          (resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              resolve({
+                name: file.name,
+                type: file.type,
+                data: reader.result as string,
+              });
+            };
+            reader.readAsDataURL(file);
+          }
+        );
+      })
+    ).then((fileData) => {
+      setFormData((prev) => ({
+        ...prev,
+        files: fileData,
+      }));
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Tüm alanların dolu olduğunu kontrol et
+    if (
+      !formData.fullName.trim() ||
+      !formData.phone.trim() ||
+      !formData.email.trim() ||
+      !formData.position ||
+      !formData.message.trim() ||
+      formData.files.length === 0
+    ) {
+      alert("Lütfen tüm alanları doldurun ve en az bir dosya yükleyin!");
+      return;
+    }
+
+    // Email formatını kontrol et
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Lütfen geçerli bir email adresi girin!");
+      return;
+    }
+
+    // Telefon numarası formatını kontrol et
+    const phoneRegex = /^[0-9\s+()-]{10,}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      alert("Lütfen geçerli bir telefon numarası girin!");
+      return;
+    }
+
     setIsSubmitting(true);
     setSending("Gönderiliyor...");
 
@@ -267,7 +314,7 @@ const RequestAQuoteForm = () => {
                           Telefon Numaranız<span>*</span>
                         </label>
                         <input
-                          type="text"
+                          type="tel"
                           name="phone"
                           className="form-control"
                           placeholder="Lütfen telefon numaranızı giriniz"
@@ -284,21 +331,48 @@ const RequestAQuoteForm = () => {
                         <select
                           id="position"
                           name="position"
-                          defaultValue={formData.position}
+                          defaultValue=""
                           className="form-select form-control h-[52px] bg-[#f8f9fa] border-[#ced4da] text-[#495057] text-[15px] rounded-md focus:ring-2 focus:ring-[#80bdff] focus:border-[#80bdff] block w-full px-4 cursor-pointer hover:bg-white hover:border-[#80bdff] transition-all duration-200 appearance-none"
                           onChange={handleInputChange}
                           value={formData.position}
+                          required
                         >
-                          <option value="" disabled className="text-[#6c757d]">Pozisyonu Seçiniz..</option>
-                          <option value="Developer" className="py-3 px-4 text-[#212529]">Developer</option>
-                          <option value="Tasarımcı" className="py-3 px-4 text-[#212529]">Tasarımcı</option>
-                          <option value="Reklam" className="py-3 px-4 text-[#212529]">Reklam</option>
-                          <option value="Kişisel Asistan" className="py-3 px-4 text-[#212529]">Kişisel Asistan</option>
-                          <option value="Broker" className="py-3 px-4 text-[#212529]">Broker</option>
-                          <option value="Mimar" className="py-3 px-4 text-[#212529]">Mimar</option>
-                          <option value="İnşaat" className="py-3 px-4 text-[#212529]">İnşaat</option>
-                          <option value="İç Mimar" className="py-3 px-4 text-[#212529]">İç Mimar</option>
-                          <option value="Diğer" className="py-3 px-4 text-[#212529]">Diğer</option>
+                          <option value="" disabled className="text-[#6c757d]">
+                            Pozisyonu Seçiniz..
+                          </option>
+                          <option value="Developer" className="py-3 px-4 text-[#212529]">
+                            Developer
+                          </option>
+                          <option value="Tasarımcı" className="py-3 px-4 text-[#212529]">
+                            Tasarımcı
+                          </option>
+                          <option value="Reklam" className="py-3 px-4 text-[#212529]">
+                            Reklam
+                          </option>
+                          <option
+                            value="Kişisel Asistan"
+                            className="py-3 px-4 text-[#212529]"
+                          >
+                            Kişisel Asistan
+                          </option>
+                          <option value="Broker" className="py-3 px-4 text-[#212529]">
+                            Broker
+                          </option>
+                          <option value="Mimar" className="py-3 px-4 text-[#212529]">
+                            Mimar
+                          </option>
+                          <option value="İnşaat" className="py-3 px-4 text-[#212529]">
+                            İnşaat
+                          </option>
+                          <option
+                            value="İç Mimar"
+                            className="py-3 px-4 text-[#212529]"
+                          >
+                            İç Mimar
+                          </option>
+                          <option value="Diğer" className="py-3 px-4 text-[#212529]">
+                            Diğer
+                          </option>
                         </select>
                       </div>
 
@@ -315,6 +389,21 @@ const RequestAQuoteForm = () => {
                           onChange={handleFileChange}
                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
                           multiple
+                          required
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Mesaj<span>*</span>
+                        </label>
+                        <textarea
+                          className="form-control h-[120px] bg-[#f8f9fa] border-[#ced4da] text-[#495057] text-[15px] rounded-md focus:ring-2 focus:ring-[#80bdff] focus:border-[#80bdff] block w-full px-4 py-3 cursor-text hover:bg-white hover:border-[#80bdff] transition-all duration-200 resize-none"
+                          name="message"
+                          placeholder="Kendinizi tanıtın..."
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          required
                         />
                       </div>
 
@@ -360,7 +449,6 @@ const RequestAQuoteForm = () => {
         }
 
         .form-select:focus {
-          
           box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
           outline: 0;
         }
