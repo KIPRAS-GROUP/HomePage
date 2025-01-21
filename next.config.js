@@ -18,7 +18,15 @@ const nextConfig = {
         headers: [
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()' // Sadece gerçekten kullandığımız özellikleri belirtiyoruz
+            value: [
+              'camera=()',
+              'microphone=()',
+              'geolocation=()',
+              'browsing-topics=()',
+              'interest-cohort=()',
+              'join-ad-interest-group=()',
+              'run-ad-auction=()'
+            ].join(', ')
           }
         ],
       },
