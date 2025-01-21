@@ -12,6 +12,7 @@ interface FormData {
   email: string;
   phone: string;
   message: string;
+  cv: string;
 }
 
 const ContactForm: React.FC = () => {
@@ -20,6 +21,7 @@ const ContactForm: React.FC = () => {
     email: "",
     phone: "",
     message: "",
+    cv: "",
   });
 
   const handleChange = (

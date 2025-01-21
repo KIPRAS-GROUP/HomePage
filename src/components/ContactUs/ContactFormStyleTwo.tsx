@@ -14,6 +14,18 @@ interface FormData {
   message: string;
 }
 
+interface SystemInfo {
+  browser: string;
+  browserVersion: string;
+  os: string;
+  osVersion: string;
+  device: string;
+  userAgent: string;
+  referrer: string;
+  screenResolution: string;
+  language: string;
+}
+
 const ContactFormStyleTwo: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -36,12 +48,64 @@ const ContactFormStyleTwo: React.FC = () => {
     });
   };
 
+  const getSystemInfo = (): SystemInfo => {
+    const userAgent = window.navigator.userAgent;
+    const browserInfo = {
+      chrome: /chrome/i.test(userAgent),
+      safari: /safari/i.test(userAgent),
+      firefox: /firefox/i.test(userAgent),
+      opera: /opera/i.test(userAgent),
+      ie: /msie/i.test(userAgent) || /trident/i.test(userAgent),
+      edge: /edge/i.test(userAgent),
+    };
+
+    const osInfo = {
+      windows: /windows/i.test(userAgent),
+      mac: /macintosh/i.test(userAgent),
+      linux: /linux/i.test(userAgent),
+      android: /android/i.test(userAgent),
+      ios: /iphone|ipad|ipod/i.test(userAgent),
+    };
+
+    const getBrowser = () => {
+      if (browserInfo.edge) return 'Edge';
+      if (browserInfo.chrome) return 'Chrome';
+      if (browserInfo.firefox) return 'Firefox';
+      if (browserInfo.safari) return 'Safari';
+      if (browserInfo.opera) return 'Opera';
+      if (browserInfo.ie) return 'Internet Explorer';
+      return 'Unknown';
+    };
+
+    const getOS = () => {
+      if (osInfo.windows) return 'Windows';
+      if (osInfo.mac) return 'MacOS';
+      if (osInfo.linux) return 'Linux';
+      if (osInfo.android) return 'Android';
+      if (osInfo.ios) return 'iOS';
+      return 'Unknown';
+    };
+
+    return {
+      browser: getBrowser(),
+      browserVersion: userAgent.split(getBrowser())[1]?.split(' ')[0] || 'Unknown',
+      os: getOS(),
+      osVersion: userAgent,
+      device: /mobile/i.test(userAgent) ? 'Mobile' : 'Desktop',
+      userAgent: userAgent,
+      referrer: document.referrer || 'Direct',
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      language: navigator.language || 'Unknown',
+    };
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setResponseMessage(null);
 
     try {
+      const systemInfo = getSystemInfo();
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -52,6 +116,7 @@ const ContactFormStyleTwo: React.FC = () => {
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
+          systemInfo: systemInfo,
         }),
       });
 
@@ -121,7 +186,7 @@ const ContactFormStyleTwo: React.FC = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
                         <label>
-                          İsminiz<span>*</span>
+                          Ad Soyad<span>*</span>
                         </label>
                         <input
                           type="text"
@@ -129,7 +194,7 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.name}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Jonathon Ronan"
+                          placeholder="Adınız Soyadınız"
                           required
                         />
                       </div>
@@ -144,7 +209,7 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.email}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="jonathonronana63@gmail.com"
+                          placeholder="E-posta adresiniz"
                           required
                         />
                       </div>
@@ -159,7 +224,7 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.phone}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="0533 123 123 1212"
+                          placeholder="Telefon numaranız"
                           required
                         />
                       </div>
@@ -173,7 +238,7 @@ const ContactFormStyleTwo: React.FC = () => {
                           value={formData.message}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Mesajınızı buraya yazın..."
+                          placeholder="Mesajınız"
                           required
                         ></textarea>
                       </div>
