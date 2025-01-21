@@ -459,12 +459,6 @@ const Navbar: React.FC = () => {
                 <i className="ri-search-line"></i>
               </div>
             </div>
-
-            <div className="option-item">
-              <Link href="/request-quote" className="default-btn">
-                Teklif Alın
-              </Link>
-            </div>
           </div>
         </div>
       </nav>

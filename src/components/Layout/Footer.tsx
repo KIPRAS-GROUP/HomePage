@@ -35,7 +35,7 @@ const pageLinksData = [
   },
   {
     id: "3",
-    name: "Teklif alın",
+    name: "Kariyer",
     link: "/request-quote",
   },
   {
