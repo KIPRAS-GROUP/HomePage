@@ -19,6 +19,8 @@ interface FormData {
     language: string;
     ipAddress?: string;
     currentUrl?: string;
+    isp?: string;
+    asn?: string;
   };
 }
 
@@ -48,6 +50,8 @@ const sendEmail = async (formData: FormData) => {
       
       <h2>Sistem Log Bilgileri</h2>
       <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress}</p>
+      <p><strong>ISP:</strong> ${formData.systemInfo.isp}</p>
+      <p><strong>AS Number:</strong> ${formData.systemInfo.asn}</p>
       <p><strong>Mevcut Sayfa:</strong> ${formData.systemInfo.currentUrl}</p>
       <p><strong>Referans URL:</strong> ${formData.systemInfo.referrer}</p>
       <p><strong>Tarayıcı:</strong> ${formData.systemInfo.browser} ${formData.systemInfo.browserVersion}</p>
@@ -67,6 +71,24 @@ const sendEmail = async (formData: FormData) => {
   }
 };
 
+// IP bilgilerini al
+async function getIpInfo(ip: string) {
+  try {
+    const response = await fetch(`http://ip-api.com/json/${ip}?fields=isp,as`);
+    const data = await response.json();
+    return {
+      isp: data.isp || 'Unknown ISP',
+      asn: data.as || 'Unknown AS'
+    };
+  } catch (error) {
+    console.error('IP bilgisi alınamadı:', error);
+    return {
+      isp: 'Unknown ISP',
+      asn: 'Unknown AS'
+    };
+  }
+}
+
 // POST isteğini işlemek için named export
 export async function POST(request: Request) {
   try {
@@ -79,9 +101,14 @@ export async function POST(request: Request) {
     // Get current URL
     const currentUrl = request.headers.get('referer') || 'Unknown URL';
     
-    // Add IP and URL to systemInfo
+    // Get IP info
+    const ipInfo = await getIpInfo(ip);
+    
+    // Add IP, URL and ISP info to systemInfo
     formData.systemInfo.ipAddress = ip;
     formData.systemInfo.currentUrl = currentUrl;
+    formData.systemInfo.isp = ipInfo.isp;
+    formData.systemInfo.asn = ipInfo.asn;
 
     await sendEmail(formData);
     return NextResponse.json(

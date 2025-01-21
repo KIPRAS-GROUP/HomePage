@@ -52,7 +52,7 @@ const Footer = ({}) => {
         <div className="container">
           <div className="row justify-content-center">
             <div
-              className="col-lg-4 col-sm-6"
+              className="col-lg-4 col-sm-6 aos-init"
               data-aos="fade-up"
               data-aos-delay="100"
               data-aos-duration="600"
@@ -81,7 +81,7 @@ const Footer = ({}) => {
             </div>
 
             <div
-              className="col-lg-2 col-sm-6"
+              className="col-lg-2 col-sm-6 aos-init"
               data-aos="fade-up"
               data-aos-delay="200"
               data-aos-duration="600"
@@ -106,7 +106,7 @@ const Footer = ({}) => {
             </div>
 
             <div
-              className="col-lg-3 col-sm-6"
+              className="col-lg-3 col-sm-6 aos-init"
               data-aos="fade-up"
               data-aos-delay="300"
               data-aos-duration="600"
@@ -129,7 +129,7 @@ const Footer = ({}) => {
             </div>
 
             <div
-              className="col-lg-3 col-sm-6"
+              className="col-lg-3 col-sm-6 aos-init"
               data-aos="fade-up"
               data-aos-delay="400"
               data-aos-duration="600"

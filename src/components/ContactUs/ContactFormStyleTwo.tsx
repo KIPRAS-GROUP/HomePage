@@ -152,7 +152,7 @@ const ContactFormStyleTwo: React.FC = () => {
         <div className="container">
           <div className="row justify-content-center">
             <div
-              className="col-lg-5 col-md-12 pe-5"
+              className="col-lg-5 col-md-12 pe-5 aos-init aos-animate"
               data-aos="fade-up"
               data-aos-delay="100"
               data-aos-duration="600"
@@ -169,7 +169,7 @@ const ContactFormStyleTwo: React.FC = () => {
             </div>
 
             <div
-              className="col-lg-7 col-md-12 position-relative ps-5"
+              className="col-lg-7 col-md-12 position-relative ps-5 aos-init aos-animate"
               data-aos="fade-up"
               data-aos-delay="200"
               data-aos-duration="600"
