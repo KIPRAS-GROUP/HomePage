@@ -24,6 +24,9 @@ interface SystemInfo {
   referrer: string;
   screenResolution: string;
   language: string;
+  localTime: string;
+  timeZone: string;
+  timeZoneFormatted: string;
 }
 
 const ContactFormStyleTwo: React.FC = () => {
@@ -86,6 +89,20 @@ const ContactFormStyleTwo: React.FC = () => {
       return 'Unknown';
     };
 
+    // Get local time information
+    const now = new Date();
+    const localTime = now.toLocaleTimeString('tr-TR', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false 
+    });
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeZoneOffset = now.getTimezoneOffset();
+    const timeZoneOffsetHours = Math.abs(Math.floor(timeZoneOffset / 60));
+    const timeZoneOffsetMinutes = Math.abs(timeZoneOffset % 60);
+    const timeZoneFormatted = `UTC${timeZoneOffset <= 0 ? '+' : '-'}${String(timeZoneOffsetHours).padStart(2, '0')}:${String(timeZoneOffsetMinutes).padStart(2, '0')}`;
+
     return {
       browser: getBrowser(),
       browserVersion: userAgent.split(getBrowser())[1]?.split(' ')[0] || 'Unknown',
@@ -96,6 +113,9 @@ const ContactFormStyleTwo: React.FC = () => {
       referrer: document.referrer || 'Direct',
       screenResolution: `${window.screen.width}x${window.screen.height}`,
       language: navigator.language || 'Unknown',
+      localTime,
+      timeZone,
+      timeZoneFormatted
     };
   };
 
