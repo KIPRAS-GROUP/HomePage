@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import ContactInfo from "./ContactInfo";
 import Image from "next/image";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import contactImg from "../../../public/images/contact/contact.png";
 import shape from "../../../public/images/contact/shape.png";
@@ -29,7 +30,7 @@ interface SystemInfo {
   timeZoneOffset: string;
 }
 
-const ContactFormStyleTwo: React.FC = () => {
+const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -40,6 +41,7 @@ const ContactFormStyleTwo: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -89,7 +91,6 @@ const ContactFormStyleTwo: React.FC = () => {
       return 'Unknown';
     };
 
-    // Get local time information
     const now = new Date();
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const userDateTime = now.toLocaleString('tr-TR', { 
@@ -100,10 +101,9 @@ const ContactFormStyleTwo: React.FC = () => {
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-      timeZone: userTimeZone // Kullanıcının kendi zaman dilimini kullan
+      timeZone: userTimeZone
     });
 
-    // UTC offset hesaplama
     const offset = now.getTimezoneOffset();
     const hours = Math.abs(Math.floor(offset / 60));
     const minutes = Math.abs(offset % 60);
@@ -131,8 +131,44 @@ const ContactFormStyleTwo: React.FC = () => {
     setIsSubmitting(true);
     setResponseMessage(null);
 
+    // Form validasyonu
+    if (!formData.name.trim() || 
+        !formData.email.trim() || 
+        !formData.phone.trim() || 
+        !formData.message.trim()) {
+      alert("Lütfen tüm alanları doldurun!");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Email formatını kontrol et
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Lütfen geçerli bir email adresi girin!");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Telefon numarası formatını kontrol et
+    const phoneRegex = /^[0-9\s+()-]{10,}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      alert("Lütfen geçerli bir telefon numarası girin!");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!executeRecaptcha) {
+      setResponseMessage("ReCAPTCHA yüklenemedi. Lütfen sayfayı yenileyip tekrar deneyin.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const systemInfo = getSystemInfo();
+      
+      // ReCAPTCHA token'ı al
+      const reCaptchaToken = await executeRecaptcha('contact_form_submit');
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -144,6 +180,7 @@ const ContactFormStyleTwo: React.FC = () => {
           phone: formData.phone,
           message: formData.message,
           systemInfo: systemInfo,
+          reCaptchaToken,
         }),
       });
 
@@ -167,139 +204,145 @@ const ContactFormStyleTwo: React.FC = () => {
     if (showAlert) {
       const timer = setTimeout(() => {
         setShowAlert(false);
-      }, 3000); // 3 saniye sonra alert kapanır
+      }, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [showAlert]);
 
   return (
-    <>
-      <div className="contact-area bg-white-wrap">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div
-              className="col-lg-5 col-md-12 pe-5 aos-init aos-animate"
-              data-aos="fade-up"
-              data-aos-delay="100"
-              data-aos-duration="600"
-              data-aos-once="true"
-            >
-              <div className="contact-image">
-                <Image
-                  src={contactImg}
-                  alt="contact"
-                  width={700}
-                  height={1012}
-                />
-              </div>
-            </div>
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>
+          Ad Soyad<span>*</span>
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="form-control"
+          placeholder="Adınız Soyadınız"
+          required
+        />
+      </div>
 
-            <div
-              className="col-lg-7 col-md-12 position-relative ps-5 aos-init aos-animate"
-              data-aos="fade-up"
-              data-aos-delay="200"
-              data-aos-duration="600"
-              data-aos-once="true"
-            >
-              <div className="contact-form-wrap">
-                <div className="title">
-                  <span>İLETİŞİM</span>
-                  <h2>Bizimle iletişime geçin, her zaman sizinleyiz..</h2>
+      <div className="form-group">
+        <label>
+          E-posta<span>*</span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="form-control"
+          placeholder="E-posta adresiniz"
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+          Telefon<span>*</span>
+        </label>
+        <input
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="form-control"
+          placeholder="Telefon numaranız"
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>
+          Mesajınız<span>*</span>
+        </label>
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          className="form-control"
+          placeholder="Mesajınız"
+          required
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        className="default-btn"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Gönderiliyor..." : "Gönder"}
+      </button>
+
+      {showAlert && (
+        <div className="alert alert-success mt-3" role="alert">
+          {responseMessage}
+        </div>
+      )}
+    </form>
+  );
+};
+
+const ContactFormStyleTwo: React.FC = () => {
+  return (
+    <div className="contact-area bg-white-wrap">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div
+            className="col-lg-5 col-md-12 pe-5 aos-init aos-animate"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            data-aos-duration="600"
+            data-aos-once="true"
+          >
+            <div className="contact-image">
+              <Image
+                src={contactImg}
+                alt="contact"
+                width={700}
+                height={1012}
+              />
+            </div>
+          </div>
+
+          <div
+            className="col-lg-7 col-md-12 position-relative ps-5 aos-init aos-animate"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            data-aos-duration="600"
+            data-aos-once="true"
+          >
+            <div className="contact-form-wrap">
+              <div className="title">
+                <span>İLETİŞİM</span>
+                <h2>Bizimle iletişime geçin, her zaman sizinleyiz..</h2>
+              </div>
+
+              <div className="row align-items-center">
+                <div className="col-lg-7 col-md-6">
+                  <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}>
+                    <ContactForm />
+                  </GoogleReCaptchaProvider>
                 </div>
 
-                <div className="row align-items-center">
-                  <div className="col-lg-7 col-md-6">
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <label>
-                          Ad Soyad<span>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="Adınız Soyadınız"
-                          required
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          E-posta<span>*</span>
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="E-posta adresiniz"
-                          required
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          Telefon<span>*</span>
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="Telefon numaranız"
-                          required
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          Mesajınız<span>*</span>
-                        </label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="Mesajınız"
-                          required
-                        ></textarea>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="default-btn"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Gönderiliyor..." : "Gönder"}
-                      </button>
-                    </form>
-                    {showAlert && (
-                      <div className="alert alert-success mt-3" role="alert">
-                        {responseMessage}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="col-lg-5 col-md-6">
-                    {/* ContactInfo */}
-                    <ContactInfo />
-                  </div>
+                <div className="col-lg-5 col-md-6">
+                  <ContactInfo />
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="contact-shape1">
-          <Image src={shape} alt="image" width={116} height={82} />
-        </div>
       </div>
-    </>
+
+      <div className="contact-shape1">
+        <Image src={shape} alt="image" width={116} height={82} />
+      </div>
+    </div>
   );
 };
 

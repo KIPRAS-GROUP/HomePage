@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { RateLimiterMemory } from "rate-limiter-flexible";
+
+// Rate limiter kurulumu
+const rateLimiter = new RateLimiterMemory({
+  points: 3, // 3 istek hakkı
+  duration: 60, // 60 saniye içinde
+});
 
 interface FormData {
   [x: string]: any;
@@ -25,102 +32,151 @@ interface FormData {
     timeZone: string;
     timeZoneOffset: string;
   };
+  reCaptchaToken: string;
 }
 
-// E-posta gönderme işlemi
+// ReCAPTCHA doğrulama fonksiyonu
+async function verifyRecaptcha(token: string) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+
+  try {
+    const response = await fetch(verificationUrl, { method: "POST" });
+    const data = await response.json();
+    return data.success;
+  } catch (error) {
+    console.error("ReCAPTCHA doğrulama hatası:", error);
+    return false;
+  }
+}
+
 const sendEmail = async (formData: FormData) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Gmail servisi
+    service: "gmail",
     auth: {
-      user: process.env.GMAIL_USER, // Gmail hesabınız
-      pass: process.env.GMAIL_PASS, // Gmail şifreniz veya App Password
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false, // Bu satır bazı güvenlik hatalarını engelleyebilir
+      rejectUnauthorized: false,
     },
   });
 
   const mailOptions = {
     from: `${formData.email}`,
-    to: "info@kipras.com.tr", // E-posta gönderilecek adres
-    subject: `📢 İletişim Talebi - ${formData.fullName}`,
+    to: "info@kipras.com.tr",
+    subject: `📬 İletişim Formu - ${formData.fullName}`,
     html: `
       <h2>Form Bilgileri</h2>
       <p><strong>Tam Ad:</strong> ${formData.fullName}</p>
       <p><strong>E-posta:</strong> ${formData.email}</p>
       <p><strong>Telefon Numarası:</strong> ${formData.phone}</p>
       <p><strong>Mesaj:</strong> ${formData.message}</p>
-      
-      <h2>Sistem Log Bilgileri</h2>
-      <p><strong>Gönderim Zamanı (Kullanıcı):</strong> ${formData.systemInfo.localDateTime} (UTC${formData.systemInfo.timeZoneOffset}, ${formData.systemInfo.timeZone})</p>
-      <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress}</p>
-      <p><strong>ISP:</strong> ${formData.systemInfo.isp}</p>
-      <p><strong>AS Number:</strong> ${formData.systemInfo.asn}</p>
-      <p><strong>Mevcut Sayfa:</strong> ${formData.systemInfo.currentUrl}</p>
-      <p><strong>Referans URL:</strong> ${formData.systemInfo.referrer}</p>
+      <br>
+      <h3>Sistem Log Bilgileri</h3>
       <p><strong>Tarayıcı:</strong> ${formData.systemInfo.browser} ${formData.systemInfo.browserVersion}</p>
-      <p><strong>İşletim Sistemi:</strong> ${formData.systemInfo.os}</p>
-      <p><strong>Cihaz Tipi:</strong> ${formData.systemInfo.device}</p>
+      <p><strong>İşletim Sistemi:</strong> ${formData.systemInfo.os} ${formData.systemInfo.osVersion}</p>
+      <p><strong>Cihaz:</strong> ${formData.systemInfo.device}</p>
       <p><strong>Ekran Çözünürlüğü:</strong> ${formData.systemInfo.screenResolution}</p>
       <p><strong>Dil:</strong> ${formData.systemInfo.language}</p>
-      <p><strong>User Agent:</strong> ${formData.systemInfo.userAgent}</p>
+      <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress}</p>
+      <p><strong>ISP:</strong> ${formData.systemInfo.isp}</p>
+      <p><strong>ASN:</strong> ${formData.systemInfo.asn}</p>
+      <p><strong>Zaman Dilimi:</strong> ${formData.systemInfo.timeZone}</p>
+      <p><strong>Yerel Tarih/Saat:</strong> ${formData.systemInfo.localDateTime}</p>
+      <p><strong>Referrer:</strong> ${formData.systemInfo.referrer}</p>
+      <p><strong>Mevcut URL:</strong> ${formData.systemInfo.currentUrl}</p>
     `,
   };
 
+  await transporter.sendMail(mailOptions);
+};
+
+const getIpInfo = async (ip: string) => {
   try {
-    await transporter.sendMail(mailOptions);
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
+    const data = await response.json();
+    return {
+      isp: data.isp,
+      asn: data.as,
+    };
   } catch (error) {
-    console.error("Mail gönderilemedi:", error);
-    throw new Error("Mail gönderilemedi");
+    console.error("IP bilgileri alınamadı:", error);
+    return { isp: "Bilinmiyor", asn: "Bilinmiyor" };
   }
 };
 
-// IP bilgilerini al
-async function getIpInfo(ip: string) {
-  try {
-    const response = await fetch(`http://ip-api.com/json/${ip}?fields=isp,as`);
-    const data = await response.json();
-    return {
-      isp: data.isp || 'Unknown ISP',
-      asn: data.as || 'Unknown AS'
-    };
-  } catch (error) {
-    console.error('IP bilgisi alınamadı:', error);
-    return {
-      isp: 'Unknown ISP',
-      asn: 'Unknown AS'
-    };
-  }
-}
-
-// POST isteğini işlemek için named export
 export async function POST(request: Request) {
   try {
-    const formData: FormData = await request.json();
-    
-    // Get IP from X-Forwarded-For header or direct IP
-    const forwardedFor = request.headers.get('x-forwarded-for');
-    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : request.headers.get('x-real-ip') || 'Unknown IP';
-    
-    // Get current URL
-    const currentUrl = request.headers.get('referer') || 'Unknown URL';
-    
-    // Get IP info
+    const formData = await request.json();
+    const ip = formData.systemInfo.ipAddress || "";
+
+    // Rate limiting kontrolü
+    try {
+      await rateLimiter.consume(ip);
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
+        { status: 429 }
+      );
+    }
+
+    // ReCAPTCHA doğrulama
+    const isRecaptchaValid = await verifyRecaptcha(formData.reCaptchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { error: "ReCAPTCHA doğrulaması başarısız" },
+        { status: 400 }
+      );
+    }
+
+    // Form validasyonu
+    if (!formData.fullName?.trim() || 
+        !formData.email?.trim() || 
+        !formData.phone?.trim() || 
+        !formData.message?.trim()) {
+      return NextResponse.json(
+        { message: "Tüm alanları doldurmak zorunludur" },
+        { status: 400 }
+      );
+    }
+
+    // Email format kontrolü
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return NextResponse.json(
+        { message: "Geçerli bir email adresi giriniz" },
+        { status: 400 }
+      );
+    }
+
+    // Telefon format kontrolü
+    const phoneRegex = /^[0-9\s+()-]{10,}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      return NextResponse.json(
+        { message: "Geçerli bir telefon numarası giriniz" },
+        { status: 400 }
+      );
+    }
+
+    // IP bilgilerini al ve forma ekle
     const ipInfo = await getIpInfo(ip);
-    
-    // Add IP, URL and ISP info to systemInfo
-    formData.systemInfo.ipAddress = ip;
-    formData.systemInfo.currentUrl = currentUrl;
-    formData.systemInfo.isp = ipInfo.isp;
-    formData.systemInfo.asn = ipInfo.asn;
+    formData.systemInfo = {
+      ...formData.systemInfo,
+      ...ipInfo,
+    };
 
     await sendEmail(formData);
+
     return NextResponse.json(
-      { message: "Form başarıyla gönderildi!" },
+      { message: "Form başarıyla gönderildi" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Hata:", error);
-    return NextResponse.json({ error: "Bir hata oluştu" }, { status: 500 });
+    console.error("Form gönderme hatası:", error);
+    return NextResponse.json(
+      { message: "Form gönderilirken bir hata oluştu" },
+      { status: 500 }
+    );
   }
 }
