@@ -75,17 +75,17 @@ const sendEmail = async (formData: FormData) => {
       <br>
       <h3>Sistem Log Bilgileri</h3>
       <p><strong>Tarayıcı:</strong> ${formData.systemInfo.browser} ${formData.systemInfo.browserVersion}</p>
-      <p><strong>İşletim Sistemi:</strong> ${formData.systemInfo.os} ${formData.systemInfo.osVersion}</p>
+      <p><strong>İşletim Sistemi:</strong> ${formData.systemInfo.os}</p>
       <p><strong>Cihaz:</strong> ${formData.systemInfo.device}</p>
       <p><strong>Ekran Çözünürlüğü:</strong> ${formData.systemInfo.screenResolution}</p>
       <p><strong>Dil:</strong> ${formData.systemInfo.language}</p>
-      <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress}</p>
-      <p><strong>ISP:</strong> ${formData.systemInfo.isp}</p>
-      <p><strong>ASN:</strong> ${formData.systemInfo.asn}</p>
+      <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress || 'Bilinmiyor'}</p>
+      <p><strong>ISP:</strong> ${formData.systemInfo.isp || 'Bilinmiyor'}</p>
+      <p><strong>ASN:</strong> ${formData.systemInfo.asn || 'Bilinmiyor'}</p>
       <p><strong>Zaman Dilimi:</strong> ${formData.systemInfo.timeZone}</p>
       <p><strong>Yerel Tarih/Saat:</strong> ${formData.systemInfo.localDateTime}</p>
-      <p><strong>Referrer:</strong> ${formData.systemInfo.referrer}</p>
-      <p><strong>Mevcut URL:</strong> ${formData.systemInfo.currentUrl}</p>
+      <p><strong>Referrer:</strong> ${formData.systemInfo.referrer || 'Doğrudan Erişim'}</p>
+      <p><strong>Mevcut URL:</strong> ${formData.systemInfo.currentUrl || 'Bilinmiyor'}</p>
     `,
   };
 
@@ -97,8 +97,8 @@ const getIpInfo = async (ip: string) => {
     const response = await fetch(`http://ip-api.com/json/${ip}`);
     const data = await response.json();
     return {
-      isp: data.isp,
-      asn: data.as,
+      isp: data.isp || 'Bilinmiyor',
+      asn: data.as || 'Bilinmiyor',
     };
   } catch (error) {
     console.error("IP bilgileri alınamadı:", error);
@@ -109,14 +109,23 @@ const getIpInfo = async (ip: string) => {
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
-    const ip = formData.systemInfo.ipAddress || "";
+
+    // Get IP from headers
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 
+               request.headers.get('x-real-ip') || 
+               'Bilinmiyor';
+
+    // Get current URL and referrer from headers
+    const currentUrl = request.headers.get('referer') || 'Bilinmiyor';
+    formData.systemInfo.currentUrl = currentUrl;
 
     // Rate limiting kontrolü
     try {
       await rateLimiter.consume(ip);
     } catch (error) {
       return NextResponse.json(
-        { message: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
+        { error: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
         { status: 429 }
       );
     }
@@ -136,7 +145,7 @@ export async function POST(request: Request) {
         !formData.phone?.trim() || 
         !formData.message?.trim()) {
       return NextResponse.json(
-        { message: "Tüm alanları doldurmak zorunludur" },
+        { error: "Tüm alanları doldurmak zorunludur" },
         { status: 400 }
       );
     }
@@ -145,7 +154,7 @@ export async function POST(request: Request) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       return NextResponse.json(
-        { message: "Geçerli bir email adresi giriniz" },
+        { error: "Geçerli bir email adresi giriniz" },
         { status: 400 }
       );
     }
@@ -154,17 +163,16 @@ export async function POST(request: Request) {
     const phoneRegex = /^[0-9\s+()-]{10,}$/;
     if (!phoneRegex.test(formData.phone)) {
       return NextResponse.json(
-        { message: "Geçerli bir telefon numarası giriniz" },
+        { error: "Geçerli bir telefon numarası giriniz" },
         { status: 400 }
       );
     }
 
     // IP bilgilerini al ve forma ekle
+    formData.systemInfo.ipAddress = ip;
     const ipInfo = await getIpInfo(ip);
-    formData.systemInfo = {
-      ...formData.systemInfo,
-      ...ipInfo,
-    };
+    formData.systemInfo.isp = ipInfo.isp;
+    formData.systemInfo.asn = ipInfo.asn;
 
     await sendEmail(formData);
 
@@ -175,7 +183,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Form gönderme hatası:", error);
     return NextResponse.json(
-      { message: "Form gönderilirken bir hata oluştu" },
+      { error: "Form gönderilirken bir hata oluştu" },
       { status: 500 }
     );
   }
