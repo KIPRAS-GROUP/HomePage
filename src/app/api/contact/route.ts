@@ -21,9 +21,9 @@ interface FormData {
     currentUrl?: string;
     isp?: string;
     asn?: string;
-    localTime: string;
+    localDateTime: string;
     timeZone: string;
-    timeZoneFormatted: string;
+    timeZoneOffset: string;
   };
 }
 
@@ -52,7 +52,7 @@ const sendEmail = async (formData: FormData) => {
       <p><strong>Mesaj:</strong> ${formData.message}</p>
       
       <h2>Sistem Log Bilgileri</h2>
-      <p><strong>Gönderim Zamanı (Kullanıcı):</strong> ${formData.systemInfo.localTime} (${formData.systemInfo.timeZoneFormatted}, ${formData.systemInfo.timeZone})</p>
+      <p><strong>Gönderim Zamanı (Kullanıcı):</strong> ${formData.systemInfo.localDateTime} (UTC${formData.systemInfo.timeZoneOffset}, ${formData.systemInfo.timeZone})</p>
       <p><strong>IP Adresi:</strong> ${formData.systemInfo.ipAddress}</p>
       <p><strong>ISP:</strong> ${formData.systemInfo.isp}</p>
       <p><strong>AS Number:</strong> ${formData.systemInfo.asn}</p>
@@ -113,16 +113,6 @@ export async function POST(request: Request) {
     formData.systemInfo.currentUrl = currentUrl;
     formData.systemInfo.isp = ipInfo.isp;
     formData.systemInfo.asn = ipInfo.asn;
-
-    // Get local time information
-    const date = new Date();
-    const localTime = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const timeZoneFormatted = Intl.DateTimeFormat('tr-TR', { timeZoneName: 'long' }).format(date);
-
-    formData.systemInfo.localTime = localTime;
-    formData.systemInfo.timeZone = timeZone;
-    formData.systemInfo.timeZoneFormatted = timeZoneFormatted;
 
     await sendEmail(formData);
     return NextResponse.json(

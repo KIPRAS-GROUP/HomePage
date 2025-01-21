@@ -24,9 +24,9 @@ interface SystemInfo {
   referrer: string;
   screenResolution: string;
   language: string;
-  localTime: string;
+  localDateTime: string;
   timeZone: string;
-  timeZoneFormatted: string;
+  timeZoneOffset: string;
 }
 
 const ContactFormStyleTwo: React.FC = () => {
@@ -91,17 +91,24 @@ const ContactFormStyleTwo: React.FC = () => {
 
     // Get local time information
     const now = new Date();
-    const localTime = now.toLocaleTimeString('tr-TR', { 
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const userDateTime = now.toLocaleString('tr-TR', { 
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
       hour: '2-digit', 
       minute: '2-digit',
       second: '2-digit',
-      hour12: false 
+      hour12: false,
+      timeZone: userTimeZone // Kullanıcının kendi zaman dilimini kullan
     });
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const timeZoneOffset = now.getTimezoneOffset();
-    const timeZoneOffsetHours = Math.abs(Math.floor(timeZoneOffset / 60));
-    const timeZoneOffsetMinutes = Math.abs(timeZoneOffset % 60);
-    const timeZoneFormatted = `UTC${timeZoneOffset <= 0 ? '+' : '-'}${String(timeZoneOffsetHours).padStart(2, '0')}:${String(timeZoneOffsetMinutes).padStart(2, '0')}`;
+
+    // UTC offset hesaplama
+    const offset = now.getTimezoneOffset();
+    const hours = Math.abs(Math.floor(offset / 60));
+    const minutes = Math.abs(offset % 60);
+    const sign = offset <= 0 ? '+' : '-';
+    const userTimeZoneOffset = `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 
     return {
       browser: getBrowser(),
@@ -113,9 +120,9 @@ const ContactFormStyleTwo: React.FC = () => {
       referrer: document.referrer || 'Direct',
       screenResolution: `${window.screen.width}x${window.screen.height}`,
       language: navigator.language || 'Unknown',
-      localTime,
-      timeZone,
-      timeZoneFormatted
+      localDateTime: userDateTime,
+      timeZone: userTimeZone,
+      timeZoneOffset: userTimeZoneOffset
     };
   };
 
