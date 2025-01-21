@@ -28,7 +28,7 @@ const jost = Jost({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kipras Group",
-  description: "Generate your future by kipras group",
+  description: "Tecrübemiz ve yenilikçi yaklaşımımızla, şehrin siluetini değiştirecek yeni projemizi sizlerle buluşturmak için gün sayıyoruz.",
 };
 
 export default function RootLayout({
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <body className={jost.className}>
         {children}
 
