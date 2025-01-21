@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ContactInfo from "../ContactUs/ContactInfo";
 import Image from "next/image";
-
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import contactImg from "../../../public/images/contact/contact2.png";
 
 /**
@@ -15,34 +15,50 @@ import contactImg from "../../../public/images/contact/contact2.png";
  * - Sistem bilgisi loglama (tarayıcı, IP, cihaz)
  * - Form doğrulama ve hata kontrolü
  */
-const RequestAQuoteForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    position: "",
-    message: "",
-    files: [] as { name: string; type: string; data: string }[],
-    systemInfo: {
-      browser: "",
-      browserVersion: "",
-      os: "",
-      osVersion: "",
-      device: "",
-      userAgent: "",
-      referrer: "",
-      screenResolution: "",
-      language: "",
-      ipAddress: "",
-      currentUrl: "",
-      timeZone: "",
-      timeZoneOffset: "",
-      localDateTime: "",
-    },
-  });
+const initialFormState = {
+  fullName: "",
+  phone: "",
+  email: "",
+  position: "",
+  message: "",
+  files: [] as { name: string; type: string; data: string }[],
+  systemInfo: {
+    browser: "",
+    browserVersion: "",
+    os: "",
+    osVersion: "",
+    device: "",
+    userAgent: "",
+    referrer: "",
+    screenResolution: "",
+    language: "",
+    ipAddress: "",
+    currentUrl: "",
+    timeZone: "",
+    timeZoneOffset: "",
+    localDateTime: "",
+  },
+};
+
+const RequestAQuoteFormContent = () => {
+  const [formData, setFormData] = useState(initialFormState);
   const [cvLoader, setCvLoader] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sending, setSending] = useState("Şimdi gönderin!");
+  const [submitCount, setSubmitCount] = useState(0);
+  const lastSubmitTime = useRef<number>(0);
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Form sıfırlama fonksiyonu
+  const resetForm = () => {
+    setFormData(initialFormState);
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+    setSending("Şimdi gönderin!");
+    setIsSubmitting(false);
+  };
 
   useEffect(() => {
     // Get system information when component mounts
@@ -189,7 +205,18 @@ const RequestAQuoteForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Tüm alanların dolu olduğunu kontrol et
+    // Rate limiting kontrolü - 1 dakikada en fazla 3 gönderim
+    const now = Date.now();
+    if (now - lastSubmitTime.current < 20000) { // 20 saniye bekleme süresi
+      alert("Lütfen yeni bir form göndermeden önce biraz bekleyin.");
+      return;
+    }
+    if (submitCount >= 3) {
+      alert("Çok fazla form gönderimi yaptınız. Lütfen daha sonra tekrar deneyin.");
+      return;
+    }
+
+    // Form validasyonu
     if (
       !formData.fullName.trim() ||
       !formData.phone.trim() ||
@@ -216,34 +243,42 @@ const RequestAQuoteForm = () => {
       return;
     }
 
+    if (!executeRecaptcha) {
+      alert("ReCAPTCHA yüklenemedi. Lütfen sayfayı yenileyip tekrar deneyin.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSending("Gönderiliyor...");
 
     try {
+      // ReCAPTCHA token'ı al
+      const reCaptchaToken = await executeRecaptcha('form_submit');
+
       const response = await fetch("/api/request-quote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          reCaptchaToken
+        }),
       });
 
       if (!response.ok) {
         throw new Error("Form gönderimi başarısız");
       }
 
-      setFormData({
-        fullName: "",
-        phone: "",
-        email: "",
-        position: "",
-        message: "",
-        files: [],
-        systemInfo: formData.systemInfo,
-      });
-
+      // Form başarıyla gönderildi
+      resetForm();
       setSending("Başarıyla gönderildi!");
       setTimeout(() => setSending("Şimdi gönderin!"), 3000);
+      
+      // Rate limiting sayaçlarını güncelle
+      setSubmitCount(prev => prev + 1);
+      lastSubmitTime.current = Date.now();
+
     } catch (error) {
       console.error("Form gönderme hatası:", error);
       setSending("Hata oluştu!");
@@ -277,7 +312,7 @@ const RequestAQuoteForm = () => {
 
                 <div className="row justify-content-center">
                   <div className="col-lg-7 col-md-6">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} ref={formRef}>
                       <div className="form-group">
                         <label>
                           Ad Soyad<span>*</span>
@@ -460,6 +495,14 @@ const RequestAQuoteForm = () => {
         }
       `}</style>
     </>
+  );
+};
+
+const RequestAQuoteForm = () => {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}>
+      <RequestAQuoteFormContent />
+    </GoogleReCaptchaProvider>
   );
 };
 

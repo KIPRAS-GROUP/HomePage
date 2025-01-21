@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { RateLimiterMemory } from "rate-limiter-flexible";
+
+// Rate limiter kurulumu
+const rateLimiter = new RateLimiterMemory({
+  points: 3, // 3 istek hakkı
+  duration: 60, // 60 saniye içinde
+});
 
 interface FormData {
   [x: string]: any;
@@ -31,6 +38,22 @@ interface FormData {
     timeZone: string;
     timeZoneOffset: string;
   };
+  reCaptchaToken: string;
+}
+
+// ReCAPTCHA doğrulama fonksiyonu
+async function verifyRecaptcha(token: string) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+
+  try {
+    const response = await fetch(verificationUrl, { method: "POST" });
+    const data = await response.json();
+    return data.success;
+  } catch (error) {
+    console.error("ReCAPTCHA doğrulama hatası:", error);
+    return false;
+  }
 }
 
 const sendEmail = async (formData: FormData) => {
@@ -99,8 +122,29 @@ const getIpInfo = async (ip: string) => {
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
-    const ipInfo = await getIpInfo(formData.systemInfo.ipAddress || "");
-    
+    const ip = formData.systemInfo.ipAddress || "";
+
+    // Rate limiting kontrolü
+    try {
+      await rateLimiter.consume(ip);
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
+        { status: 429 }
+      );
+    }
+
+    // ReCAPTCHA doğrulama
+    const isRecaptchaValid = await verifyRecaptcha(formData.reCaptchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { message: "ReCAPTCHA doğrulaması başarısız" },
+        { status: 400 }
+      );
+    }
+
+    // IP bilgilerini al ve forma ekle
+    const ipInfo = await getIpInfo(ip);
     formData.systemInfo = {
       ...formData.systemInfo,
       ...ipInfo,
