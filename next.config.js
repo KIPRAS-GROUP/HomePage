@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // For Static Export
-
   trailingSlash: true,
   images: {
     unoptimized: true,
@@ -18,12 +16,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Permissions-Policy',
-            // Açıkça reddedilen özellikler
             value: [
               // Temel güvenlik özellikleri
               'camera=()',
               'microphone=()',
-              'geolocation=()',
+              'geolocation=(self "https://maps.googleapis.com")', // Google Maps için geolocation izni
               // Privacy Sandbox özellikleri
               'attribution-reporting=()',
               'browsing-topics="()"',
@@ -46,6 +43,18 @@ const nextConfig = {
             // CORS politikası
             key: 'Cross-Origin-Opener-Policy',
             value: 'same-origin'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "img-src 'self' data: https://*.googleapis.com https://*.gstatic.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "connect-src 'self' https://*.googleapis.com",
+              "frame-src 'self' https://www.google.com/maps/ https://maps.googleapis.com"
+            ].join('; ')
           }
         ],
       },
