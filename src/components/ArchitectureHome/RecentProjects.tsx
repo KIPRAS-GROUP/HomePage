@@ -24,29 +24,29 @@ const projectsData = [
   {
     id: "3",
     image: "/images/projects/projects3.jpg",
-    title: "Triangle House",
-    category: "Architecture",
+    title: "Örnek Proje 2",
+    category: "Şehir",
     link: "/portfolio/portfolio-details",
   },
   {
     id: "4",
     image: "/images/projects/projects4.jpg",
-    title: "Glass Building",
-    category: "Exterior",
+    title: "Örnek Proje 3",
+    category: "Şehir",
     link: "/portfolio/portfolio-details",
   },
   {
     id: "5",
     image: "/images/projects/projects5.jpg",
-    title: "Building Decor",
-    category: "Exterior",
+    title: "Örnek Proje 4",
+    category: "Şehir",
     link: "/portfolio/portfolio-details",
   },
   {
     id: "6",
     image: "/images/projects/projects6.jpg",
-    title: "Museum",
-    category: "Architecture",
+    title: "Örnek Proje 5",
+    category: "Şehir",
     link: "/portfolio/portfolio-details",
   },
 ];
@@ -58,7 +58,7 @@ const RecentProjects: React.FC = () => {
         <div className="container">
           <div className="section-title d-flex justify-content-center">
             <h2>
-              Recent <span>Projects</span>
+            Son <span>Projeler</span>
             </h2>
           </div>
 
@@ -163,7 +163,7 @@ const RecentProjects: React.FC = () => {
           )}
 
           <div className="projects-btn">
-            <Link href="/portfolio">VIEW ALL PROJECTS</Link>
+            <Link href="/portfolio">Tüm Projeler</Link>
           </div>
         </div>
       </div>

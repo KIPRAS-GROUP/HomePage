@@ -13,34 +13,34 @@ const clientsFeedbackData = [
   {
     id: "1",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations. With our team of highly skilled architects and designers, we specialize in crafting.",
+      "Biz, beklentileri aşan vizyoner tasarımlar yaratmaya adanmış lider bir mimarlık firmasıyız. Son derece yetenekli mimarlar ve tasarımcılardan oluşan ekibimizle, işçilik konusunda uzmanız.",
     image: "/images/client/user1.png",
-    name: "Jonathon Ronan",
-    designation: "CEO of HiBootstrap",
+    name: "S. G.",
+    designation: "Firma Yetkilisi",
   },
   {
     id: "2",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations. With our team of highly skilled architects and designers, we specialize in crafting.",
+    "Biz, beklentileri aşan vizyoner tasarımlar yaratmaya adanmış lider bir mimarlık firmasıyız. Son derece yetenekli mimarlar ve tasarımcılardan oluşan ekibimizle, işçilik konusunda uzmanız.",
     image: "/images/client/user2.png",
-    name: "Angela Carter",
-    designation: "CEO of EnvyTheme",
+    name: "S. G.",
+    designation: "Firma Yetkilisi",
   },
   {
     id: "3",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations. With our team of highly skilled architects and designers, we specialize in crafting.",
+    "Biz, beklentileri aşan vizyoner tasarımlar yaratmaya adanmış lider bir mimarlık firmasıyız. Son derece yetenekli mimarlar ve tasarımcılardan oluşan ekibimizle, işçilik konusunda uzmanız.",
     image: "/images/client/user3.png",
-    name: "Skyler White",
-    designation: "CEO of HiboTheme",
+    name: "S. G.",
+    designation: "Firma Yetkilisi",
   },
   {
     id: "4",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations. With our team of highly skilled architects and designers, we specialize in crafting.",
+      "Biz, beklentileri aşan vizyoner tasarımlar yaratmaya adanmış lider bir mimarlık firmasıyız. Son derece yetenekli mimarlar ve tasarımcılardan oluşan ekibimizle, işçilik konusunda uzmanız.",
     image: "/images/client/user4.png",
-    name: "Angela Carter",
-    designation: "CEO of Abc",
+    name: "S. G.",
+    designation: "Firma Yetkilisi",
   },
 ];
 
@@ -51,7 +51,7 @@ const ClientsFeedbackSlider: React.FC = () => {
         <div className="container">
           <div className="section-title d-flex justify-content-center">
             <h2>
-              <span>Our Clients</span> Talk For Us
+              <span>Müşterilerimiz</span> Bizim Adımıza Konuşuyor
             </h2>
           </div>
 
