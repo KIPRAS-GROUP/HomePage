@@ -7,7 +7,7 @@ import ClientsFeedbackSlider from "@/components/Common/ClientsFeedbackSlider";
 import TextSlide from "@/components/Common/TextSlide";
 import TeamMemberStyle2 from "@/components/Common/TeamMemberStyle2";
 import Partner from "@/components/Common/Partner";
-import ContactFormStyleTwo from "@/components/ContactUs/ContactFormStyleTwo";
+import ContactForm from "@/components/ContactUs/ContactFormStyleTwo";
 import Footer from "@/components/Layout/Footer";
 
 export default function Page() {
@@ -40,7 +40,7 @@ export default function Page() {
       </div>
 
       <div className="pb-100">
-        <ContactFormStyleTwo />
+        <ContactForm />
       </div>
       
       <Footer />

@@ -1,6 +1,6 @@
 import Navbar from "@/components/Layout/Navbar";
 import PageTitle from "@/components/Common/PageTitle";
-import ContactFormStyleTwo from "@/components/ContactUs/ContactFormStyleTwo";
+import ContactForm from "@/components/ContactUs/ContactFormStyleTwo";
 import ServiceDetailsContent from "@/components/ServiceDetails/ServiceDetailsContent";
 import Footer from "@/components/Layout/Footer";
 import Process from "@/components/ServiceDetails/Process";
@@ -21,7 +21,7 @@ export default function Page() {
       <Process />
    
       <div className="ptb-100">
-        <ContactFormStyleTwo />
+        <ContactForm />
       </div>
       
       <Footer />

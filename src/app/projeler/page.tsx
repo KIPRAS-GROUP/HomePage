@@ -4,7 +4,6 @@ import PageTitle from "@/components/Common/PageTitle";
 import ProjectCardStyle2 from "@/components/Portfolio/ProjectCardStyle2";
 import ContactForm from "@/components/ContactUs/ContactFormStyleTwo";
 import Footer from "@/components/Layout/Footer";
-import ContactFormStyleTwo from "@/components/ContactUs/ContactFormStyleTwo";
 
 const projects = [
   {
@@ -74,7 +73,7 @@ export default function Page() {
           ))}
         </div>
 
-        <ContactFormStyleTwo />
+        <ContactForm />
 
         <Footer />
       </div>
