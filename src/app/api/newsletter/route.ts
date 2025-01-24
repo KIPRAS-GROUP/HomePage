@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
-import logger from '@/utils/logger';
 
 // Rate limiter kurulumu
 const rateLimiter = new RateLimiterMemory({
@@ -34,7 +33,7 @@ const sendEmail = async (data: NewsletterData) => {
   const mailOptions = {
     from: process.env.GMAIL_USER,
     to: process.env.ADMIN_EMAIL,
-    subject: "🔔 Yeni Mail Abonesi",
+    subject: `🔔 Yeni Mail Abonesi ${data.email}`,
     html: `
       <h2>Yeni Bülten Aboneliği</h2>
       <p>${data.email} mail adresi Kipras Group tarafından mail bültenine abone oldu.</p>
@@ -59,25 +58,22 @@ export async function POST(request: Request) {
     try {
       await rateLimiter.consume(ip);
     } catch (error) {
-      logger.error("Rate limit aşıldı:", ip);
+      console.error("Rate limit aşıldı:", ip);
       return NextResponse.json(
         { success: false, message: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
         { status: 429 }
       );
     }
 
-    // Log the subscription
-    logger.info('New newsletter subscription', { email: data.email });
-
     await sendEmail(data);
-    logger.info("Yeni bülten aboneliği:", { email: data.email, ip });
+    console.info("Yeni bülten aboneliği:", { email: data.email, ip });
 
     return NextResponse.json({ 
       success: true, 
       message: 'Bülten aboneliğiniz başarıyla tamamlandı.' 
     });
   } catch (error) {
-    logger.error('Newsletter subscription error', { error });
+    console.error("Bülten aboneliği hatası:", error);
     return NextResponse.json({ 
       success: false, 
       message: 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.' 

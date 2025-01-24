@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import logger from "@/utils/logger";
 
 const NewsletterForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -48,12 +47,12 @@ const NewsletterForm: React.FC = () => {
           message: data.message,
         });
         setEmail("");
-        logger.info("Bülten aboneliği başarılı:", email);
+        console.info("Bülten aboneliği başarılı:", email);
       } else {
         throw new Error(data.message);
       }
     } catch (error) {
-      logger.error("Bülten aboneliği hatası:", error);
+      console.error("Bülten aboneliği hatası:", error);
       setStatus({
         type: "error",
         message: error instanceof Error ? error.message : "Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
