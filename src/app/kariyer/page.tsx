@@ -1,4 +1,4 @@
-import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
+import Navbar from "@/components/Layout/Navbar";
 import PageTitle from "@/components/Common/PageTitle";
 import RequestAQuoteForm from "@/components/RequestAQuote/RequestAQuoteForm";
 import Footer from "@/components/Layout/Footer";
@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <>
       {/* Navbar */}
-      <NavbarStyleTwo />
+      <Navbar />
       <PageTitle
         title="Kariyerinizi bizimle yapın"
         homeText="Anasayfa"

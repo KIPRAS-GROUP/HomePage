@@ -1,4 +1,4 @@
-import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
+import Navbar from "@/components/Layout/Navbar";
 import PageTitle from "@/components/Common/PageTitle";
 import TeamMember from "@/components/Team/TeamMember";
 import Footer from "@/components/Layout/Footer";
@@ -6,7 +6,7 @@ import Footer from "@/components/Layout/Footer";
 export default function Page() {
   return (
     <>
-      <NavbarStyleTwo />
+      <Navbar />
 
       <PageTitle 
         title="Team"

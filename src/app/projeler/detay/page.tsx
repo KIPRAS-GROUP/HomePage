@@ -1,4 +1,4 @@
-import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
+import Navbar from "@/components/Layout/Navbar";
 import PageTitle from "@/components/Common/PageTitle";
 import PortfolioDetailsContent from "@/components/PortfolioDetails/PortfolioDetailsContent";
 import ContactFormStyleTwo from "@/components/ContactUs/ContactFormStyleTwo";
@@ -8,7 +8,7 @@ import ProjectGallery from "@/components/PortfolioDetails/ProjectGallery";
 export default function Page() {
   return (
     <>
-      <NavbarStyleTwo />
+      <Navbar />
 
       <PageTitle 
         title="Portfolio Details"

@@ -1,4 +1,4 @@
-import NavbarStyleTwo from "@/components/Layout/NavbarStyleTwo";
+import Navbar from "@/components/Layout/Navbar";
 import PageTitle from "@/components/Common/PageTitle";
 import ContactFormStyleTwo from "@/components/ContactUs/ContactFormStyleTwo";
 import ServiceDetailsContent from "@/components/ServiceDetails/ServiceDetailsContent";
@@ -8,7 +8,7 @@ import Process from "@/components/ServiceDetails/Process";
 export default function Page() {
   return (
     <>
-      <NavbarStyleTwo />
+      <Navbar />
 
       <PageTitle 
         title="Service Details"
