@@ -11,34 +11,34 @@ const clientsFeedbackData = [
   {
     id: "1",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
+      "Kipras Group ile çalışmak gerçekten harika bir deneyimdi. Projemizin her aşamasında profesyonel yaklaşımları ve yaratıcı çözümleriyle beklentilerimizin ötesine geçtiler. Özellikle detaylara verdikleri önem ve zamanında teslim konusundaki hassasiyetleri takdire şayan.",
     image: "/images/client/user1.png",
-    name: "Jonathon Ronan",
-    designation: "CEO of HiBootstrap",
+    name: "Ahmet Yılmaz",
+    designation: "İş Merkezi Yöneticisi",
   },
   {
     id: "2",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
+      "Ofisimizin renovasyon projesinde Kipras Group'u tercih ettik ve sonuçtan çok memnun kaldık. Modern tasarım anlayışları ve kaliteli malzeme seçimleriyle mekanımıza bambaşka bir değer kattılar. İş sürecindeki şeffaf iletişimleri de ayrıca takdir edilesi.",
     image: "/images/client/user2.png",
-    name: "Angela Carter",
-    designation: "CEO of EnvyTheme",
+    name: "Ayşe Kaya",
+    designation: "Şirket Sahibi",
   },
   {
     id: "3",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
+      "Villa projemizde Kipras Group ekibiyle çalışmak muhteşemdi. Mimari vizyonları ve teknik uzmanlıkları sayesinde hayalimizdeki evi tam istediğimiz gibi tasarladılar. Süreç boyunca gösterdikleri özen ve sundukları çözümler için teşekkür ederiz.",
     image: "/images/client/user3.png",
-    name: "Skyler White",
-    designation: "CEO of HiboTheme",
+    name: "Mehmet Demir",
+    designation: "Konut Sahibi",
   },
   {
     id: "4",
     feedbackText:
-      "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations with our team is a great high in demand.",
+      "Restoranımızın iç mekan tasarımında Kipras Group'un imzası var. Müşterilerimizden sürekli olumlu geri dönüşler alıyoruz. Özellikle mekanın fonksiyonelliği ve estetik dokunuşları konusunda gösterdikleri hassasiyet gerçekten etkileyici.",
     image: "/images/client/user4.png",
-    name: "Angela Carter",
-    designation: "CEO of Abc",
+    name: "Dinçer Arslan",
+    designation: "Restoran İşletmecisi",
   },
 ];
 

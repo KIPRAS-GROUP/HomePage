@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import CommentForm from "./CommentForm";
 import Image from "next/image";
 
 import blogImg from "../../../public/images/blog-details/blog-details1.jpg";
@@ -162,8 +161,6 @@ const SingleBlogContent: React.FC = () => {
               </div>
             </div>
 
-            {/* CommentForm */}
-            <CommentForm />
           </div>
         </div>
 
