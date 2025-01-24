@@ -10,13 +10,42 @@ const rateLimiter = new RateLimiterMemory({
 
 interface NewsletterData {
   email: string;
-  systemInfo?: {
+  systemInfo: {
+    browser: string;
+    browserVersion: string;
+    os: string;
+    osVersion: string;
+    device: string;
+    userAgent: string;
+    referrer: string;
+    screenResolution: string;
+    language: string;
     ipAddress?: string;
-    userAgent?: string;
     currentUrl?: string;
-    localDateTime?: string;
+    isp?: string;
+    asn?: string;
+    localDateTime: string;
+    timeZone: string;
+    timeZoneOffset: string;
   };
 }
+
+const getIpInfo = async (ip: string) => {
+  try {
+    const response = await fetch(`http://ip-api.com/json/${ip}`);
+    const data = await response.json();
+    return {
+      isp: data.isp || 'Bilinmiyor',
+      asn: data.as || 'Bilinmiyor',
+    };
+  } catch (error) {
+    console.error('IP bilgisi alınamadı:', error);
+    return {
+      isp: 'Bilinmiyor',
+      asn: 'Bilinmiyor',
+    };
+  }
+};
 
 const sendEmail = async (data: NewsletterData) => {
   const transporter = nodemailer.createTransport({
@@ -39,10 +68,18 @@ const sendEmail = async (data: NewsletterData) => {
       <p>${data.email} mail adresi Kipras Group tarafından mail bültenine abone oldu.</p>
       <br>
       <h3>Sistem Log Bilgileri</h3>
-      <p><strong>IP Adresi:</strong> ${data.systemInfo?.ipAddress || 'Bilinmiyor'}</p>
-      <p><strong>Tarayıcı Bilgisi:</strong> ${data.systemInfo?.userAgent || 'Bilinmiyor'}</p>
-      <p><strong>Kaynak URL:</strong> ${data.systemInfo?.currentUrl || 'Bilinmiyor'}</p>
-      <p><strong>Yerel Tarih/Saat:</strong> ${data.systemInfo?.localDateTime || 'Bilinmiyor'}</p>
+      <p><strong>Tarayıcı:</strong> ${data.systemInfo.browser} ${data.systemInfo.browserVersion}</p>
+      <p><strong>İşletim Sistemi:</strong> ${data.systemInfo.os}</p>
+      <p><strong>Cihaz:</strong> ${data.systemInfo.device}</p>
+      <p><strong>Ekran Çözünürlüğü:</strong> ${data.systemInfo.screenResolution}</p>
+      <p><strong>Dil:</strong> ${data.systemInfo.language}</p>
+      <p><strong>IP Adresi:</strong> ${data.systemInfo.ipAddress || 'Bilinmiyor'}</p>
+      <p><strong>ISP:</strong> ${data.systemInfo.isp || 'Bilinmiyor'}</p>
+      <p><strong>ASN:</strong> ${data.systemInfo.asn || 'Bilinmiyor'}</p>
+      <p><strong>Zaman Dilimi:</strong> ${data.systemInfo.timeZone}</p>
+      <p><strong>Yerel Tarih/Saat:</strong> ${data.systemInfo.localDateTime}</p>
+      <p><strong>Referrer:</strong> ${data.systemInfo.referrer || 'Doğrudan Erişim'}</p>
+      <p><strong>Mevcut URL:</strong> ${data.systemInfo.currentUrl || 'Bilinmiyor'}</p>
     `,
   };
 
@@ -52,7 +89,14 @@ const sendEmail = async (data: NewsletterData) => {
 export async function POST(request: Request) {
   try {
     const data: NewsletterData = await request.json();
-    const ip = data.systemInfo?.ipAddress || "";
+    const ip = data.systemInfo.ipAddress || "";
+
+    // IP bilgilerini al
+    if (ip) {
+      const ipInfo = await getIpInfo(ip);
+      data.systemInfo.isp = ipInfo.isp;
+      data.systemInfo.asn = ipInfo.asn;
+    }
 
     // Rate limiting kontrolü
     try {
@@ -66,7 +110,15 @@ export async function POST(request: Request) {
     }
 
     await sendEmail(data);
-    console.info("Yeni bülten aboneliği:", { email: data.email, ip });
+    console.info("Yeni bülten aboneliği:", { 
+      email: data.email, 
+      ip,
+      browser: `${data.systemInfo.browser} ${data.systemInfo.browserVersion}`,
+      os: data.systemInfo.os,
+      device: data.systemInfo.device,
+      language: data.systemInfo.language,
+      timeZone: data.systemInfo.timeZone
+    });
 
     return NextResponse.json({ 
       success: true, 
