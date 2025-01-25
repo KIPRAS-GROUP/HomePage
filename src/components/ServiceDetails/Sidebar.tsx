@@ -10,32 +10,32 @@ const servicesData = [
   {
     id: "1",
     title: "URBAN DESIGN",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "2",
     title: "ARCHITECHTURE",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "3",
     title: "INTERIOR DESIGN",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "4",
     title: "EXTERIOR DESIGN",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "5",
     title: "INDUSTRIAL DESIGN",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "6",
     title: "3D MODELLING",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
 ];
 

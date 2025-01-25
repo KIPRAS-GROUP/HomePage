@@ -383,10 +383,9 @@ const Navbar: React.FC = () => {
 
                       <li>
                         <Link
-                          href="/services/service-details/"
+                          href="/hizmetler/detay/"
                           className={`nav-link ${
-                            currentRoute === "/services/service-details/"
-                              ? "active"
+                            currentRoute === "/hizmetler/detay/" ? "active"
                               : ""
                           }`}
                         >
@@ -432,9 +431,9 @@ const Navbar: React.FC = () => {
 
                       <li>
                         <Link
-                          href="/request-quote/"
+                          href="/kariyer/"
                           className={`nav-link ${
-                            currentRoute === "/request-quote/" ? "active" : ""
+                            currentRoute === "/kariyer/" ? "active" : ""
                           }`}
                         >
                           Request A Quote
@@ -485,9 +484,9 @@ const Navbar: React.FC = () => {
                   </AccordionItemPanel>
                 </AccordionItem> 
                 <Link
-                  href="/contact-us/"
+                  href="/iletisim/"
                   className={`nav-link ${
-                    currentRoute === "/contact-us/" ? "active" : ""
+                    currentRoute === "/iletisim/" ? "active" : ""
                   }`}
                 >
                   İletişim

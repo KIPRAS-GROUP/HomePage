@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { headers } from 'next/headers';
 
 // Rate limiter kurulumu
 const rateLimiter = new RateLimiterMemory({
@@ -47,6 +48,26 @@ const getIpInfo = async (ip: string) => {
   }
 };
 
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const getClientIp = (request: Request): string => {
+  const headersList = headers();
+  const forwardedFor = headersList.get('x-forwarded-for');
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0].trim();
+  }
+  
+  const xRealIp = headersList.get('x-real-ip');
+  if (xRealIp) {
+    return xRealIp;
+  }
+
+  return 'Bilinmiyor';
+};
+
 const sendEmail = async (data: NewsletterData) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -69,7 +90,7 @@ const sendEmail = async (data: NewsletterData) => {
       <br>
       <h3>Sistem Log Bilgileri</h3>
       <p><strong>Tarayıcı:</strong> ${data.systemInfo.browser} ${data.systemInfo.browserVersion}</p>
-      <p><strong>İşletim Sistemi:</strong> ${data.systemInfo.os}</p>
+      <p><strong>İşletim Sistemi:</strong> ${data.systemInfo.os} ${data.systemInfo.osVersion}</p>
       <p><strong>Cihaz:</strong> ${data.systemInfo.device}</p>
       <p><strong>Ekran Çözünürlüğü:</strong> ${data.systemInfo.screenResolution}</p>
       <p><strong>Dil:</strong> ${data.systemInfo.language}</p>
@@ -83,26 +104,42 @@ const sendEmail = async (data: NewsletterData) => {
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Email gönderme hatası:', error);
+    throw new Error('Email gönderilemedi. Lütfen daha sonra tekrar deneyiniz.');
+  }
 };
 
 export async function POST(request: Request) {
   try {
     const data: NewsletterData = await request.json();
-    const ip = data.systemInfo.ipAddress || "";
+
+    // Email validasyonu
+    if (!validateEmail(data.email)) {
+      return NextResponse.json({ 
+        success: false, 
+        message: 'Geçersiz email adresi. Lütfen doğru bir email adresi giriniz.' 
+      }, { status: 400 });
+    }
+
+    // IP adresini al ve systemInfo'ya ekle
+    const clientIp = getClientIp(request);
+    data.systemInfo.ipAddress = clientIp;
 
     // IP bilgilerini al
-    if (ip) {
-      const ipInfo = await getIpInfo(ip);
+    if (clientIp && clientIp !== 'Bilinmiyor') {
+      const ipInfo = await getIpInfo(clientIp);
       data.systemInfo.isp = ipInfo.isp;
       data.systemInfo.asn = ipInfo.asn;
     }
 
     // Rate limiting kontrolü
     try {
-      await rateLimiter.consume(ip);
+      await rateLimiter.consume(clientIp);
     } catch (error) {
-      console.error("Rate limit aşıldı:", ip);
+      console.error("Rate limit aşıldı:", clientIp);
       return NextResponse.json(
         { success: false, message: "Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin." },
         { status: 429 }
@@ -112,9 +149,9 @@ export async function POST(request: Request) {
     await sendEmail(data);
     console.info("Yeni bülten aboneliği:", { 
       email: data.email, 
-      ip,
+      ip: clientIp,
       browser: `${data.systemInfo.browser} ${data.systemInfo.browserVersion}`,
-      os: data.systemInfo.os,
+      os: `${data.systemInfo.os} ${data.systemInfo.osVersion}`,
       device: data.systemInfo.device,
       language: data.systemInfo.language,
       timeZone: data.systemInfo.timeZone
@@ -126,9 +163,10 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Bülten aboneliği hatası:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.';
     return NextResponse.json({ 
       success: false, 
-      message: 'Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.' 
+      message: errorMessage 
     }, { status: 500 });
   }
 }

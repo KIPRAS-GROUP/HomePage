@@ -12,7 +12,7 @@ const servicesData = [
     icon: "flaticon-measuring",
     title: "Tasarım",
     text: "Kendini beklentileri aşan vizyoner tasarımlar yaratmaya adamış lider bir mimarlık firmasıyız.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
     aosDelay: "100",
   },
   {
@@ -20,7 +20,7 @@ const servicesData = [
     icon: "flaticon-mansory",
     title: "İnşaat",
     text: "Kendini beklentileri aşan vizyoner tasarımlar yaratmaya adamış lider bir mimarlık firmasıyız.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
     aosDelay: "200",
   },
   {
@@ -28,7 +28,7 @@ const servicesData = [
     icon: "flaticon-interior-design",
     title: "Mühendislik",
     text: "Kendini beklentileri aşan vizyoner tasarımlar yaratmaya adamış lider bir mimarlık firmasıyız.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
     aosDelay: "300",
   },
 ];
@@ -48,7 +48,7 @@ const WhatWeDo: React.FC = () => {
             <h2>
               <span>Sizin için</span> neler yapacağız?
             </h2>
-            <Link href="/services">Tüm Servislerimiz</Link>
+            <Link href="/hizmetler">Tüm Servislerimiz</Link>
           </div>
 
           {servicesData && (

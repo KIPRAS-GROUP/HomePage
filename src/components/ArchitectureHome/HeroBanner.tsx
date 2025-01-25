@@ -71,7 +71,7 @@ const HeroBanner: React.FC = () => {
               data-aos-duration="600"
               data-aos-once="false"
             >
-              <Link href="/contact-us" className="default-btn">
+              <Link href="/iletisim" className="default-btn">
                 Bilgi ve iletişim için
               </Link>
             </div>
@@ -113,7 +113,7 @@ const HeroBanner: React.FC = () => {
         )}
 
         <div className="main-banner-arrow">
-          <Link href="/contact-us">
+          <Link href="/iletisim">
             <Image
               src={arrowRightIcon}
               alt="arrow right"

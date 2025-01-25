@@ -2,6 +2,98 @@
 
 import React, { useState } from "react";
 
+const getBrowser = (userAgent: string) => {
+  const browsers = [
+    { name: "Chrome", regex: /Chrome\/([0-9.]+)/ },
+    { name: "Firefox", regex: /Firefox\/([0-9.]+)/ },
+    { name: "Safari", regex: /Version\/([0-9.]+).*Safari/ },
+    { name: "Edge", regex: /Edge\/([0-9.]+)/ },
+    { name: "IE", regex: /MSIE\s+([0-9.]+)/ },
+    { name: "Opera", regex: /Opera\/([0-9.]+)/ },
+  ];
+
+  for (const browser of browsers) {
+    const match = userAgent.match(browser.regex);
+    if (match) {
+      return browser.name;
+    }
+  }
+
+  return "Unknown";
+};
+
+const getBrowserVersion = (userAgent: string) => {
+  const browsers = [
+    { name: "Chrome", regex: /Chrome\/([0-9.]+)/ },
+    { name: "Firefox", regex: /Firefox\/([0-9.]+)/ },
+    { name: "Safari", regex: /Version\/([0-9.]+).*Safari/ },
+    { name: "Edge", regex: /Edge\/([0-9.]+)/ },
+    { name: "IE", regex: /MSIE\s+([0-9.]+)/ },
+    { name: "Opera", regex: /Opera\/([0-9.]+)/ },
+  ];
+
+  for (const browser of browsers) {
+    const match = userAgent.match(browser.regex);
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return "Unknown";
+};
+
+const getOS = (userAgent: string) => {
+  const osList = [
+    { name: "Windows", regex: /Windows/ },
+    { name: "Mac OS", regex: /Mac OS/ },
+    { name: "Linux", regex: /Linux/ },
+    { name: "Android", regex: /Android/ },
+    { name: "iOS", regex: /iPhone|iPad|iPod/ },
+  ];
+
+  for (const os of osList) {
+    if (os.regex.test(userAgent)) {
+      return os.name;
+    }
+  }
+
+  return "Unknown";
+};
+
+const getOSVersion = (userAgent: string) => {
+  const osList = [
+    { name: "Windows", regex: /Windows NT ([0-9.]+)/ },
+    { name: "Mac OS", regex: /Mac OS X ([0-9._]+)/ },
+    { name: "Linux", regex: /Linux ([0-9.]+)/ },
+    { name: "Android", regex: /Android ([0-9.]+)/ },
+    { name: "iOS", regex: /iPhone OS ([0-9_]+)/ },
+  ];
+
+  for (const os of osList) {
+    const match = userAgent.match(os.regex);
+    if (match) {
+      return match[1];
+    }
+  }
+
+  return "Unknown";
+};
+
+const getDevice = () => {
+  const devices = [
+    { name: "Desktop", regex: /Windows|Macintosh|Linux/ },
+    { name: "Mobile", regex: /Android|iPhone|iPad|iPod/ },
+  ];
+
+  for (const device of devices) {
+    if (device.regex.test(navigator.userAgent)) {
+      return device.name;
+    }
+  }
+
+  return "Unknown";
+};
+
 const NewsletterForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<{
@@ -31,10 +123,20 @@ const NewsletterForm: React.FC = () => {
         body: JSON.stringify({
           email,
           systemInfo: {
-            ipAddress: "",  // IP adresi sunucu tarafında alınacak
+            browser: getBrowser(navigator.userAgent),
+            browserVersion: getBrowserVersion(navigator.userAgent),
+            os: getOS(navigator.userAgent),
+            osVersion: getOSVersion(navigator.userAgent),
+            device: getDevice(),
             userAgent: navigator.userAgent,
+            referrer: document.referrer || 'Doğrudan Erişim',
+            screenResolution: `${window.screen.width}x${window.screen.height}`,
+            language: navigator.language,
+            ipAddress: "",  // IP adresi sunucu tarafında alınacak
             currentUrl: window.location.href,
             localDateTime: new Date().toLocaleString('tr-TR'),
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            timeZoneOffset: new Date().getTimezoneOffset().toString()
           },
         }),
       });

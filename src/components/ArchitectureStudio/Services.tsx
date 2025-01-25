@@ -13,7 +13,7 @@ const servicesData = [
     title: "Urban Design",
     shortText:
       "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "2",
@@ -21,7 +21,7 @@ const servicesData = [
     title: "Architecture",
     shortText:
       "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
   {
     id: "3",
@@ -29,7 +29,7 @@ const servicesData = [
     title: "Interior Design",
     shortText:
       "We are a leading architecture firm dedicated to creating visionary designs that transcend expectations.",
-    link: "/services/service-details",
+    link: "/hizmetler/detay",
   },
 ];
 
@@ -47,7 +47,7 @@ const Services: React.FC = () => {
               </h2>
             </div>
             <div className="link-btn">
-              <Link href="/services">VIEW ALL SERVICES</Link>
+              <Link href="/hizmetler">Tüm Servislerimiz</Link>
             </div>
           </div>
 

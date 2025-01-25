@@ -41,8 +41,8 @@ const PricingPlan: React.FC = () => {
                   </li>
                 </ul>
 
-                <Link href="/contact-us" className="default-btn">
-                  Contact Us
+                <Link href="/iletisim" className="default-btn">
+                  Bilgi ve iletişim için
                 </Link>
               </div>
             </div>
