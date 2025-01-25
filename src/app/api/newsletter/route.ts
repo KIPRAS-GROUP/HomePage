@@ -83,7 +83,7 @@ const sendEmail = async (data: NewsletterData) => {
   const mailOptions = {
     from: process.env.GMAIL_USER,
     to: process.env.ADMIN_EMAIL,
-    subject: `🔔 Yeni Mail Abonesi ${data.email}`,
+    subject: `🔔 Yeni Mail Abonesi - ${data.email}`,
     html: `
       <h2>Yeni Bülten Aboneliği</h2>
       <p>${data.email} mail adresi Kipras Group tarafından mail bültenine abone oldu.</p>
